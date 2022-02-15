@@ -7,6 +7,7 @@ using namespace std;
 
 class IOHandler {
 public:
+	virtual ~IOHandler() {}
 	IOHandler() :dbms(nullptr), printer(nullptr) {}
 	IOHandler(IDbms* _dbms, IPrinter* _printer) : dbms(_dbms), printer(_printer) {}
 
