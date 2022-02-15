@@ -146,6 +146,8 @@
     <ClInclude Include="DataBase.h" />
     <ClInclude Include="Dbms.h" />
     <ClInclude Include="Employee.h" />
+    <ClInclude Include="IOHandler.h" />
+    <ClInclude Include="Printer.h" />
     <ClInclude Include="SearchEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
