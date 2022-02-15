@@ -4,7 +4,7 @@
 using namespace std;
 
 TEST(SEARCHENGINE, SearchEmployeeNum_OutOfRange) {
-    SearchEngine se;
+    //SearchEngine se;
 
     //EXPECT_EQ(0, size(se.Search(db, 65000000)));
     //EXPECT_EQ(0, size(se.Search(db, 22000000)));
