@@ -1,7 +1,21 @@
 #include <string>
 #include "Employee.h"
 
-enum Column { EMPLOYEE_NUM, NAME, CL, PHONE, BIRTH_DAY, CERTI };
+enum class Column {
+	EMPLOYEE_NUM,
+	NAME,
+	FIRST_NAME,
+	LAST_NAME,
+	CL,
+	PHONE,
+	PHONE_MID,
+	PHONE_LAST,
+	BIRTHDAY,
+	BIRTHDAY_YEAR,
+	BIRTHDAY_MONTH,
+	BIRTHDAY_DAY,
+	CERTI
+};
 
 class Editor {
 	bool ADD(Employee data);
