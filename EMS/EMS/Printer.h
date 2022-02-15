@@ -9,10 +9,10 @@ public:
 
 class ShortPrinter : public IPrinter {
 public:
-    void print(list<Employee*> data) const;
+    void print(list<Employee*> data) const override;
 };
 
 class DetailedPrinter : public IPrinter {
 public:
-    void print(list<Employee*> data) const;
+    void print(list<Employee*> data) const override;
 };
