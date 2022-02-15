@@ -1,3 +1,4 @@
+#pragma once
 #include <list>
 #include "Employee.h"
 #include "SearchEngine.h"
@@ -11,7 +12,7 @@ public:
     virtual bool deleteTargets(list<Employee*> targets) = 0;
 };
 
-class DataBase : IDataBase {
+class DataBase : public IDataBase {
 public:
     std::list<Employee*> search(Column column, string data) override;
 
