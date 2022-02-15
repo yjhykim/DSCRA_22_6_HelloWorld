@@ -11,13 +11,9 @@ public:
 	IOHandler() :dbms(nullptr), printer(nullptr) {}
 	IOHandler(IDbms* _dbms, IPrinter* _printer) : dbms(_dbms), printer(_printer) {}
 
-	vector<string> parsetInput(string cmd) {
-		vector<string> cmd_args;
-		cmd_args.emplace_back("ADD");
-		cmd_args.emplace_back("-");
-		return cmd_args;
-	}
+	void commandRequest(string cmd) {}
 private:
+	void parsetInput(string cmd) {}
 	IDbms* dbms;
 	IPrinter* printer;
 };

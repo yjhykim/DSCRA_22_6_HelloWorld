@@ -35,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="mock_DataBase.h" />
     <ClInclude Include="mock_Dbms.h" />
+    <ClInclude Include="mock_Printer.h" />
     <ClInclude Include="mock_SearchEngine.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
