@@ -138,12 +138,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="Dbms.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandHandler.h" />
-    <ClInclude Include="Editor.h" />
+    <ClInclude Include="DataBase.h" />
+    <ClInclude Include="Dbms.h" />
     <ClInclude Include="Employee.h" />
     <ClInclude Include="SearchEngine.h" />
   </ItemGroup>
