@@ -1,3 +1,4 @@
+#pragma once
 #include "Employee.h"
 #include <list>
 
