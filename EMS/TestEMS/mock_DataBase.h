@@ -4,7 +4,7 @@
 
 class MockDataBase : public IDataBase {
 public:
-    MOCK_METHOD(std::list<Employee*>, search, (string data));
-    MOCK_METHOD(bool, add, (Employee target));
-    MOCK_METHOD(bool, deleteTargets, (list<Employee*> targets));
+    MOCK_METHOD(list<Employee*>, search, (Column column, string data), (override));
+    MOCK_METHOD(bool, add, (Employee target), (override));
+    MOCK_METHOD(bool, deleteTargets, (list<Employee*> targets), (override));
 };

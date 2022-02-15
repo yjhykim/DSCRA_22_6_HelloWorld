@@ -47,6 +47,9 @@
     <ClInclude Include="Printer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
