@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Employee.h"
 #include <list>
 
@@ -16,3 +17,4 @@ class DetailedPrinter : public IPrinter {
 public:
     void print(list<Employee*> data) const override;
 };
+
