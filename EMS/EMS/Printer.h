@@ -17,4 +17,3 @@ class DetailedPrinter : public IPrinter {
 public:
     void print(list<Employee*> data) const override;
 };
-

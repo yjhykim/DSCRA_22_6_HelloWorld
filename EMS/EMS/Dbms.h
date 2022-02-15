@@ -2,6 +2,7 @@
 
 #include "Employee.h"
 #include "DataBase.h"
+#include "../EMS/Dbms.h"
 #include <list>
 
 using namespace std;
@@ -24,6 +25,7 @@ enum class Column {
 
 class IDbms {
 public:
+	virtual ~IDbms() {}
 	virtual list<Employee*> add(Employee data) = 0;
 	virtual list<Employee*> del(Column type, string data) = 0;
 	virtual list<Employee*> sch(Column type, string data) = 0;

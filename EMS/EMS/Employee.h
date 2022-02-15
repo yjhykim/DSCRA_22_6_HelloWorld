@@ -2,8 +2,8 @@
 #include <string>
 using namespace std;
 
-enum CL { CL1, CL2, CL3, CL4 };
-enum CERTI { ADV, PRO, EX };
+enum class CL { CL1, CL2, CL3, CL4 };
+enum class CERTI { ADV, PRO, EX };
 
 struct Name {
 	string first;
