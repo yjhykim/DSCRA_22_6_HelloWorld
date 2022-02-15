@@ -150,6 +150,7 @@
     <ClInclude Include="IOHandler.h" />
     <ClInclude Include="Printer.h" />
     <ClInclude Include="SearchEngine.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

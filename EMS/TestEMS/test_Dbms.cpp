@@ -1,19 +1,14 @@
 #include "pch.h"
-#include "gmock/gmock.h"
-#include "gtest/gtest.h"
 #include "../EMS/Dbms.h"
+#include "mock_DataBase.h"
 
 using ::testing::Return;
 using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
 
-class Mock_dataBase : public IDataBase {
-public:
-};
-
 TEST(Editor, sch_positive) {
-    Mock_dataBase mockDb;
+    MockDataBase mockDb;
 
     list<Employee*> list;
     Employee employee;

@@ -1,0 +1,19 @@
+enum class CL { CL1, CL2, CL3, CL4 };
+
+enum class CERTI { ADV, PRO, EX };
+
+enum class Column {
+	EMPLOYEE_NUM,
+	NAME,
+	FIRST_NAME,
+	LAST_NAME,
+	CL,
+	PHONE,
+	PHONE_MID,
+	PHONE_LAST,
+	BIRTHDAY,
+	BIRTHDAY_YEAR,
+	BIRTHDAY_MONTH,
+	BIRTHDAY_DAY,
+	CERTI
+};
