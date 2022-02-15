@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
+#include "Types.h"
 using namespace std;
-
-enum class CL { CL1, CL2, CL3, CL4 };
-enum class CERTI { ADV, PRO, EX };
 
 struct Name {
 	string first;
