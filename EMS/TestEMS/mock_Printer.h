@@ -1,3 +1,4 @@
+#pragma once
 #include "../EMS/Printer.h"
 #include "gmock/gmock.h"
 
