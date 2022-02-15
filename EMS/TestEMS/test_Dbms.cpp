@@ -23,5 +23,4 @@ TEST(Editor, sch_positive) {
     EXPECT_EQ(list.front()->employeeNum, 1234);
     EXPECT_EQ(list.size(), 1);
 
-
 }

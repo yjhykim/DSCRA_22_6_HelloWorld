@@ -5,15 +5,15 @@
 
 class IPrinter {
 public:
-    virtual void print(list<Employee*> data) const = 0;
+    virtual void print(list<Employee*> data, string cmd) const = 0;
 };
 
 class ShortPrinter : public IPrinter {
 public:
-    void print(list<Employee*> data) const override;
+    void print(list<Employee*> data, string cmd) const override;
 };
 
 class DetailedPrinter : public IPrinter {
 public:
-    void print(list<Employee*> data) const override;
+    void print(list<Employee*> data, string cmd) const override;
 };
