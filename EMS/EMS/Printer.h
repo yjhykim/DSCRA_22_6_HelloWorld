@@ -2,6 +2,7 @@
 
 #include "Employee.h"
 #include <list>
+#include <string>
 
 class IPrinter {
 public:
