@@ -16,14 +16,13 @@ static std::vector<string> split(string str, char Delimiter) {
 
 static int getEmployeeNum(std::string data) {
     int id{ 0 };
-    int id_num_of_digits = 1000000;
     try {
         id = stoi(data);
-        auto year = id / id_num_of_digits;
+        auto year = id / EMP_ID_NUM_OF_DIGITS;
         if (year >= 69)
-            id += 1900 * id_num_of_digits;
+            id += 1900 * EMP_ID_NUM_OF_DIGITS;
         else
-            id += 2000 * id_num_of_digits;
+            id += 2000 * EMP_ID_NUM_OF_DIGITS;
     }
     catch (const std::exception& e) {
         throw e;
