@@ -77,6 +77,7 @@ TEST(IOHandlerTest, MOD) {
 
 TEST(IOHandlerTest, PRINT) {
 	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
-	ON_CALL(mockPrinter, print(_, "MOD"));
+	string cmd{"MOD"};
+	ON_CALL(mockPrinter, print(_, cmd));
 	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
 }
