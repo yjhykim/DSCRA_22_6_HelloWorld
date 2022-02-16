@@ -23,6 +23,6 @@ struct Employee {
 	Name name;
 	CL cl;
 	PhoneNum phoneNum;
-	Birthday birthday;
+	Birthday birthDay;
 	CERTI certi;
 };
