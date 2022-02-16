@@ -1,36 +1,24 @@
 #pragma once
 #include "Printer.h"
 #include <map>
+#include <iostream>
+#include <iomanip>
 
-void ShortPrinter::print(list<Employee*> data, string cmd) const {
-    // ex) DEL,3
-    // ex) DEL,NONE
-    string statement = cmd + ",";
-    if (data.size() == 0) {
-        statement += "NONE";
-    }
-    else {
-        statement += std::to_string(data.size());
-    }
-    printf("%s\n", statement.c_str());
-    
-}
+void Printer::print(list<Employee*> data, string& cmd) const {
 
-void DetailedPrinter::print(list<Employee*> data, string cmd) const {
-    // ex) DEL,91351446,LIM PNQN,CL3,010-3245-2345,19940812,PRO
-    string statement{ "" };
     for (const auto& employee : data) {
-        statement = cmd + ",";
-        statement += employee->employeeNum % 100000000 + ",";
-        statement += employee->name.first + " " + employee->name.last + ",";
-        statement += CareerLevelString[employee->cl] + ",";
-        statement += std::to_string(employee->phoneNum.start) + "-";
-        statement += std::to_string(employee->phoneNum.mid) + "-";
-        statement += std::to_string(employee->phoneNum.last) + ",";
-        statement += std::to_string(employee->birthday.year);
-        statement += std::to_string(employee->birthday.month);
-        statement += std::to_string(employee->birthday.day) + ",";
-        statement += CertiString[employee->certi];
-        printf("%s\n", statement.c_str());
+        output_ << cmd + ",";
+        output_ << std::to_string(employee->employeeNum).substr(2, 10) + ",";
+        output_ << employee->name.first + " " + employee->name.last + ",";
+        output_ << CareerLevelString[employee->cl] + ",";
+        output_ << std::setw(3) << std::setfill('0') << employee->phoneNum.start << "-";
+        output_ << std::setw(4) << std::setfill('0') << employee->phoneNum.mid << "-";
+        output_ << std::setw(4) << std::setfill('0') << employee->phoneNum.last << ",";
+        output_ << std::setw(4) << std::setfill('0') << employee->birthDay.year;
+        output_ << std::setw(2) << std::setfill('0') << employee->birthDay.month;
+        output_ << std::setw(2) << std::setfill('0') << employee->birthDay.day << ",";
+        output_ << CertiString[employee->certi];
+        output_ << endl;
     }
+
 }
