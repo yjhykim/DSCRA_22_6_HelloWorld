@@ -1,7 +1,7 @@
 #include "IOHandler.h"
 
-void IOHandler::commandRequest(string cmd) {
-	parseInput(cmd);
+void IOHandler::commandRequest(const string& cmd) {
+	parseInput();
 	runDBMS();
 	runPrinter();
 }
@@ -25,7 +25,7 @@ void IOHandler::runDBMS() {
 	}
 }
 
-void IOHandler::setCommandType(string cmd) {
+void IOHandler::setCommandType() {
 	string cmd_type_str = cmd.substr(0, 3);
 	if (cmd_type_str == "ADD") {
 		cmd_type = ADD;
@@ -44,35 +44,35 @@ void IOHandler::setCommandType(string cmd) {
 	}
 }
 
-void IOHandler::parseInput(string cmd) {
-	setCommandType(cmd);
+void IOHandler::parseInput() {
+	setCommandType();
 	switch (cmd_type) {
 	case ADD:
-		parseADD(cmd);
+		parseADD();
 		break;
 	case DEL:
-		parseDEL(cmd);
+		parseDEL();
 		break;
 	case SCH:
-		parseSCH(cmd);
+		parseSCH();
 		break;
 	case MOD:
-		parseMOD(cmd);
+		parseMOD();
 		break;
 	default:
 		break;
 	}
 }
 
-void IOHandler::parseADD(string cmd) {
+void IOHandler::parseADD() {
 
 }
-void IOHandler::parseDEL(string cmd) {
+void IOHandler::parseDEL() {
 
 }
-void IOHandler::parseSCH(string cmd) {
+void IOHandler::parseSCH() {
 
 }
-void IOHandler::parseMOD(string cmd) {
+void IOHandler::parseMOD() {
 
 }
