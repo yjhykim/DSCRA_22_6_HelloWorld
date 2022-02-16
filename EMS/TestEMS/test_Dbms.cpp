@@ -8,12 +8,14 @@ using ::testing::AnyNumber;
 using ::testing::Test;
 using ::testing::Invoke;
 
-MockDataBase mockDb;
-Dbms* dbms;
-list<Employee*> fake_db;
+
 
 class DbmsTest : public testing::Test {
     public:
+        MockDataBase mockDb;
+        Dbms* dbms;
+        list<Employee*> fake_db;
+
         Employee data1{ 1910127115, {"KBU", "KIM"}, CL::CL3, {010, 3284, 4054}, {1966,8,14}, CERTI::ADV };
         Employee data2{ 2012117017, {"LFIS", "JJIVL"}, CL::CL1, {010, 7914, 4067}, {2012,8,12}, CERTI::PRO };
         Employee data3{ 2011125777, {"TKOQKIS", "KIM"}, CL::CL1, {010, 6734, 2289}, {1999,10,1}, CERTI::PRO };
@@ -90,7 +92,7 @@ TEST_F(DbmsTest, del_positive) {
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(delTargets));
 
     EXPECT_CALL(mockDb, deleteTargets(_)).Times(1);
-    ON_CALL(mockDb, deleteTargets(_)).WillByDefault(Invoke([](list<Employee*> list) -> bool {
+    ON_CALL(mockDb, deleteTargets(_)).WillByDefault(Invoke([=](list<Employee*> list) -> bool {
         for (auto e : list) {
             fake_db.remove(e);
         }
