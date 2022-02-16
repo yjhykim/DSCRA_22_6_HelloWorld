@@ -41,7 +41,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 	case Column::NAME:
 		tokenizedStr = tokenize_getline(data, ' ');
 		target->name.first = tokenizedStr.at(0);
-		target->name.first = tokenizedStr.at(1);
+		target->name.last = tokenizedStr.at(1);
 		break;
 	case Column::CL:
 		if (data == "CL1")
@@ -57,7 +57,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 		tokenizedStr = tokenize_getline(data, '-');
 		target->phoneNum.start = stoi(tokenizedStr.at(0));
 		target->phoneNum.mid = stoi(tokenizedStr.at(1));
-		target->phoneNum.mid = stoi(tokenizedStr.at(2));
+		target->phoneNum.end = stoi(tokenizedStr.at(2));
 		break;
 	case Column::BIRTHDAY:
 		target->birthDay.year = stoi(data.substr(0, 4));
