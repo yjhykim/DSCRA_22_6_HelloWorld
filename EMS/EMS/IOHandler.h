@@ -7,15 +7,29 @@ using namespace std;
 #include "Printer.h"
 
 class IOHandler {
-	enum CMD_TYPE { NONE, ADD, DEL, SCH, MOD};
+	enum class CMD_TYPE { NONE, ADD, DEL, SCH, MOD };
+	enum class OPT1_TYPE { NONE, PRINT };
+	enum class OPT2_TYPE { NONE, FIRST, MID_OR_MONTH, LAST, YEAR, DAY };
+	enum class OPT3_TYPE { NONE, RESERVED };
 public:
-	virtual ~IOHandler() {}
-	IOHandler(IDbms* _dbms, IPrinter* _printer) : cmd(""), cmd_type( NONE ), employeeInfo({ 0 }), charIdx( 0 ), dbms(_dbms), printer(_printer) {}
+	IOHandler(IDbms* _dbms, IPrinter* _printer) : 
+		cmd(""), cmd_type( CMD_TYPE::NONE ), employeeInfo({ 0 }), 
+		charIdx( 0 ), opt1(OPT1_TYPE::NONE), opt2(OPT2_TYPE::NONE), opt3(OPT3_TYPE::NONE), 
+		dbms(_dbms), printer(_printer) {}
+
+	virtual ~IOHandler() {
+		delete dbms;
+		delete printer;
+	}
 
 	void commandRequest(const string& cmd);
+
 private:
 	void parseInput();
 	void setCommandType();
+	void parseOption1();
+	void parseOption2();
+	void parseOption3();
 	void parseADD();
 	void parseDEL();
 	void parseSCH();
@@ -30,7 +44,10 @@ private:
 	vector<string> stringInfo;
 	list<Employee*> printInfo;
 
-	unsigned int charIdx;
+	size_t charIdx;
+	OPT1_TYPE opt1;
+	OPT2_TYPE opt2;
+	OPT3_TYPE opt3;
 
 	IDbms* dbms;
 	IPrinter* printer;
