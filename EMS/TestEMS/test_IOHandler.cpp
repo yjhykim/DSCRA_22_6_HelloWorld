@@ -43,11 +43,8 @@ public:
 };
 
 TEST(IOHandlerTest, ADD) {
-	mock_Dbms dbms;
-	EXPECT_CALL(dbms, add(_)).Times(1);
-	MockPrinter printer;
-	IOHandler io_handler(&dbms, &printer);
-	io_handler.commandRequest("ADD,,,,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
+	EXPECT_CALL(mockDBMS, add(_)).Times(1);
+	ioHandler->commandRequest("ADD,,,,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
 }
 
 TEST(IOHandlerTest, DEL) {
@@ -79,6 +76,7 @@ TEST(IOHandlerTest, MOD) {
 }
 
 TEST(IOHandlerTest, PRINT) {
-	EXPECT_CALL(mockPrinter, print(_, _)).Times(1);
+	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
+	ON_CALL(mockPrinter, print(_, "MOD"));
 	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
 }
