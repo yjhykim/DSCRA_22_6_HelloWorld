@@ -11,25 +11,31 @@ void Dbms::add(Employee data) {
 }
 
 int Dbms::del(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	_db->deleteTargets(list);
-	return 0;
+	list<Employee*> selectedItems = _db->search(type, data);
+	_db->deleteTargets(selectedItems);
+	return selectedItems.size();
 }
 
-list<Employee*> Dbms::del_p(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	_db->deleteTargets(list);
-	return list;
+list<Employee> Dbms::del_p(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee> result;
+
+	_db->deleteTargets(selectedItems);
+
+	return result;
 }
 
 int Dbms::sch(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	return 0;
+	list<Employee*> selectedItems = _db->search(type, data);
+
+	return selectedItems.size();
 }
 
-list<Employee*> Dbms::sch_p(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	return list;
+list<Employee> Dbms::sch_p(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee> result;
+
+	return result;
 }
 
 vector<string> tokenize_getline(const string& data, const char delimiter = ' ') {
@@ -87,17 +93,18 @@ void editColumn(Employee* target, const Column type, const string data) {
 }
 
 int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
-	list<Employee*> list = _db->search(typeFrom, dataFrom);
+	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
 
-	for (auto e : list) editColumn(e, typeTo, dataTo);
+	for (auto e : selectedItems) editColumn(e, typeTo, dataTo);
 
-	return 0;
+	return selectedItems.size();
 }
 
-list<Employee*> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
-	list<Employee*> list = _db->search(typeFrom, dataFrom);
+list<Employee> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
+	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
+	list<Employee> result;
 
-	for (auto e : list) editColumn(e, typeTo, dataTo);
+	for (auto e : selectedItems) editColumn(e, typeTo, dataTo);
 
-	return list;
+	return result;
 }
