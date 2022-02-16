@@ -9,9 +9,9 @@ Dbms::Dbms(IDataBase* db) {
 void copyResultData(list<Employee*> selectedItems, list<Employee>* result) {
 	int cnt = 0;
 
-	for (auto item : selectedItems) {
+	for (auto &item : selectedItems) {
 		result->emplace_back(*item);
-		if (++cnt > MAX_OUT_DATA)
+		if (++cnt >= MAX_OUT_DATA)
 			break;
 	}
 }
@@ -109,7 +109,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
 	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
 
-	for (auto e : selectedItems) editColumn(e, typeTo, dataTo);
+	for (auto &e : selectedItems) editColumn(e, typeTo, dataTo);
 
 	return selectedItems.size();
 }
@@ -120,7 +120,7 @@ list<Employee> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, stri
 
 	copyResultData(selectedItems, &result);
 
-	for (auto e : selectedItems) editColumn(e, typeTo, dataTo);
+	for (auto &e : selectedItems) editColumn(e, typeTo, dataTo);
 
 	return result;
 }
