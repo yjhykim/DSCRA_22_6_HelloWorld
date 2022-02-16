@@ -16,7 +16,8 @@ void IOHandler::commandRequest(string _cmd) {
 }
 
 void IOHandler::runPrinter() {
-
+	string cmdType = getCMDTypeAsString();
+	printer->print(printInfo, cmdType);
 }
 
 void IOHandler::runDBMS() {
@@ -39,7 +40,7 @@ void IOHandler::runDBMS() {
 }
 
 void IOHandler::setCommandType() {
-	string cmd_type_str = cmd.substr(0, 3);
+	string cmd_type_str = getCMDTypeAsString();
 	if (cmd_type_str == "ADD") {
 		cmd_type = CMD_TYPE::ADD;
 	}
@@ -55,7 +56,7 @@ void IOHandler::setCommandType() {
 	else {
 		throw invalid_argument("Command " + cmd_type_str + " is not supported");
 	}
-	charIdx = 3+1; // CMD,[ ],
+	charIdx = 3+1;
 }
 
 void IOHandler::parseInput() {
@@ -160,9 +161,7 @@ static void separateName(const string& fullName, string& firstName, string& last
 		throw invalid_argument("First name and Last name should be distinguished by space character");
 	}
 	firstName = fullName.substr(0, spaceIdx);
-	cerr << "firstName: " << firstName << endl;
 	lastName = fullName.substr(spaceIdx + 1, fullName.length() - spaceIdx - 1);
-	cerr << "lastName: " << lastName << endl;
 
 	return;
 }

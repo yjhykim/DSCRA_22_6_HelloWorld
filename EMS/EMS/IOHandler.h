@@ -36,6 +36,10 @@ private:
 	void parseMOD();
 	void runDBMS();
 	void runPrinter(); 
+	string getCMDTypeAsString() {
+		return cmd.substr(0, 3);
+	}
+
 	Column convertStringToColumn(string str);
 
 	string cmd;

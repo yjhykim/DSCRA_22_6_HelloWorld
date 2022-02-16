@@ -9,12 +9,13 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
-using ::testing::Invoke;
+using ::testing::Invoke; 
+using ::testing::NiceMock;
 
 class IOHandlerTest : public testing::Test {
 public:
 	mock_Dbms mockDBMS;
-	MockPrinter mockPrinter;
+	NiceMock<MockPrinter> mockPrinter;
 	IOHandler* ioHandler;
 	list<Employee*> fakeDB;
 
@@ -44,6 +45,7 @@ public:
 
 TEST_F(IOHandlerTest, ADD) {
 	EXPECT_CALL(mockDBMS, add(_)).Times(1);
+	EXPECT_CALL(mockPrinter, print(_, string("ADD"))).Times(1);
 	ioHandler->commandRequest("ADD,,,,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
 }
 
@@ -77,6 +79,6 @@ TEST_F(IOHandlerTest, MOD) {
 
 TEST_F(IOHandlerTest, PRINT) {
 	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
-	ON_CALL(mockPrinter, print(_, "MOD"));
+	EXPECT_CALL(mockPrinter, print(_, string("MOD"))).Times(1);
 	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name,KKIVL KFIS");
 }
