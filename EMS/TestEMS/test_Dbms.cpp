@@ -32,6 +32,7 @@ class DbmsTest : public testing::Test {
             fake_db.emplace_back(&data5);
         }
 
+
         virtual void TearDown() override {
             delete dbms;
             fake_db.clear();
