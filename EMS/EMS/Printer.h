@@ -8,7 +8,7 @@
 
 class IPrinter {
 public:
-    virtual ~IPrinter() {}
+    ~IPrinter() {}
     virtual void print(list<Employee*> data, string& cmd) const = 0;
 };
 

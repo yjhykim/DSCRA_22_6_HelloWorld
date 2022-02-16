@@ -11,16 +11,16 @@ int main(int argc, char* argv[]) {
 	ifstream inputFile(argv[1]);
 	ofstream outputFile(argv[2]);
 
-	if (inputFile.is_open()) {
-		string line;
-		Dbms dbms;
-		Printer printer(outputFile);
-		IOHandler io_handler(&dbms, &printer);
+	//if (inputFile.is_open()) {
+	//	string line;
+	//	Dbms dbms;
+	//	Printer printer(&outputFile);
+	//	IOHandler io_handler(&dbms, &printer);
 
-		while (getline(inputFile, line)) {
-			io_handler.parsetInput(line);
-		}
-	}
+	//	while (getline(inputFile, line)) {
+	//		io_handler.parsetInput(line);
+	//	}
+	//}
 
 	inputFile.close();
 	outputFile.close();
