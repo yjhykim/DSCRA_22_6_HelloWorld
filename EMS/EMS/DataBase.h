@@ -3,7 +3,7 @@
 #include "SearchEngine.h"
 #include "Types.h"
 #include "ColumnData.h"
-#include <list>
+#include <map>
 #include <algorithm>
 
 class IDataBase {
@@ -29,6 +29,6 @@ public:
     bool deleteTargets(list<Employee*> targets) override;
 
 private:
-    std::list<Employee*> database_;
+    std::map<int, Employee> database_;
     SearchEngine* engine_;
 };
