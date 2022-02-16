@@ -117,9 +117,6 @@ TEST_F(DbmsTest, mod_positive) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
-    EXPECT_CALL(mockDb, deleteTargets(_)).Times(1);
-    ON_CALL(mockDb, deleteTargets(_)).WillByDefault(Return(true));
-
     list<Employee*> result = dbms->mod(Column::CL, "CL1", Column::CERTI, "EX");
 
     EXPECT_EQ(result.size(), modTargets.size());
@@ -127,3 +124,4 @@ TEST_F(DbmsTest, mod_positive) {
     EXPECT_EQ(count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {return e->cl == CL::CL1; }),
         count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {return e->certi == CERTI::EX; }));
 }
+
