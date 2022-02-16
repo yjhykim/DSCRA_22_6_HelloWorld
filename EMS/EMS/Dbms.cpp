@@ -10,13 +10,24 @@ void Dbms::add(Employee data) {
 	_db->add(data);
 }
 
-list<Employee*> Dbms::del(Column type, string data) {
+int Dbms::del(Column type, string data) {
+	list<Employee*> list = _db->search(type, data);
+	_db->deleteTargets(list);
+	return 0;
+}
+
+list<Employee*> Dbms::del_p(Column type, string data) {
 	list<Employee*> list = _db->search(type, data);
 	_db->deleteTargets(list);
 	return list;
 }
 
-list<Employee*> Dbms::sch(Column type, string data) {
+int Dbms::sch(Column type, string data) {
+	list<Employee*> list = _db->search(type, data);
+	return 0;
+}
+
+list<Employee*> Dbms::sch_p(Column type, string data) {
 	list<Employee*> list = _db->search(type, data);
 	return list;
 }
@@ -27,7 +38,7 @@ vector<string> tokenize_getline(const string& data, const char delimiter = ' ') 
 	stringstream ss(data);
 
 	while (getline(ss, token, delimiter)) result.push_back(token);
-	
+
 	return result;
 }
 
@@ -75,7 +86,15 @@ void editColumn(Employee* target, const Column type, const string data) {
 	}
 }
 
-list<Employee*> Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
+int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
+	list<Employee*> list = _db->search(typeFrom, dataFrom);
+
+	for (auto e : list) editColumn(e, typeTo, dataTo);
+
+	return 0;
+}
+
+list<Employee*> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
 	list<Employee*> list = _db->search(typeFrom, dataFrom);
 
 	for (auto e : list) editColumn(e, typeTo, dataTo);
