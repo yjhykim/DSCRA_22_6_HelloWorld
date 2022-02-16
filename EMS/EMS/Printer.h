@@ -3,18 +3,21 @@
 #include "Employee.h"
 #include <list>
 #include <string>
+#include <fstream>
+
 
 class IPrinter {
 public:
-    virtual void print(list<Employee*> data, string cmd) const = 0;
+    ~IPrinter() {}
+    virtual void print(list<Employee*> data, string& cmd) const = 0;
 };
 
-class ShortPrinter : public IPrinter {
+class Printer {
 public:
-    void print(list<Employee*> data, string cmd) const override;
+    Printer(ofstream& output) : output_(output) {}
+    ~Printer() {}
+    void print(list<Employee*> data, string& cmd) const;
+private:
+    ofstream& output_;
 };
 
-class DetailedPrinter : public IPrinter {
-public:
-    void print(list<Employee*> data, string cmd) const override;
-};
