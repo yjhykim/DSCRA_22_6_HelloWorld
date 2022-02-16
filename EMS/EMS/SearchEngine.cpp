@@ -4,10 +4,9 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, int employeeNum) co
 {
 	list<Employee*> result;
 
-	for (auto& item : db) {
-		if (item.second.employeeNum != employeeNum) continue;
-		result.emplace_back(&item.second);
-	}
+	auto item = db.find(employeeNum);
+	if (item != db.end())
+		result.emplace_back(&(item->second));
 	return result;
 }
 
