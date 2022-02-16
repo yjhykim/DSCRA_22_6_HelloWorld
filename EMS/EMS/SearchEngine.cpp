@@ -5,8 +5,8 @@ list<Employee*> SearchEngine::search(list<Employee>& db, int employeeNum) const
 	list<Employee*> result;
 
 	for (auto& item : db) {
-		if (item.employeeNum == employeeNum)
-			result.emplace_back(&item);
+		if (item.employeeNum != employeeNum) continue;
+		result.emplace_back(&item);
 	}
 	return result;
 }
@@ -30,8 +30,8 @@ list<Employee*> SearchEngine::search(list<Employee>& db, CL cl) const
 	list<Employee*> result;
 
 	for (auto& item : db) {
-		if (item.cl == cl)
-			result.emplace_back(&item);
+		if (item.cl != cl) continue;
+		result.emplace_back(&item);
 	}
 
 	return result;
@@ -71,8 +71,8 @@ list<Employee*> SearchEngine::search(list<Employee>& db, CERTI certi) const
 	list<Employee*> result;
 
 	for (auto& item : db) {
-		if (certi == item.certi)
-			result.emplace_back(&item);
+		if (certi != item.certi) continue;
+		result.emplace_back(&item);
 	}
 
 	return result;
