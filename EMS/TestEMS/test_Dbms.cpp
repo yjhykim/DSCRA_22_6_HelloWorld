@@ -8,8 +8,6 @@ using ::testing::AnyNumber;
 using ::testing::Test;
 using ::testing::Invoke;
 
-
-
 class DbmsTest : public testing::Test {
     public:
         MockDataBase mockDb;
