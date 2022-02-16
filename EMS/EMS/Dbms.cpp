@@ -6,6 +6,16 @@ Dbms::Dbms(IDataBase* db) {
 	_db = db;
 }
 
+void copyResultData(list<Employee*> selectedItems, list<Employee>* result) {
+	int cnt = 0;
+
+	for (auto item : selectedItems) {
+		result->emplace_back(*item);
+		if (++cnt > MAX_OUT_DATA)
+			break;
+	}
+}
+
 void Dbms::add(Employee data) {
 	_db->add(data);
 }
@@ -19,6 +29,8 @@ int Dbms::del(Column type, string data) {
 list<Employee> Dbms::del_p(Column type, string data) {
 	list<Employee*> selectedItems = _db->search(type, data);
 	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
 
 	_db->deleteTargets(selectedItems);
 
@@ -34,6 +46,8 @@ int Dbms::sch(Column type, string data) {
 list<Employee> Dbms::sch_p(Column type, string data) {
 	list<Employee*> selectedItems = _db->search(type, data);
 	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
 
 	return result;
 }
@@ -103,6 +117,8 @@ int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
 list<Employee> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
 	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
 	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
 
 	for (auto e : selectedItems) editColumn(e, typeTo, dataTo);
 
