@@ -39,7 +39,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -138,11 +138,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="Dbms.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Printer.cpp" />
     <ClCompile Include="SearchEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ColumnData.h" />
     <ClInclude Include="CommandHandler.h" />
     <ClInclude Include="DataBase.h" />
     <ClInclude Include="Dbms.h" />
