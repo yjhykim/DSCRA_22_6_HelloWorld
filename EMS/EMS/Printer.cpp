@@ -27,9 +27,9 @@ void DetailedPrinter::print(list<Employee*> data, string cmd) const {
         statement += std::to_string(employee->phoneNum.start) + "-";
         statement += std::to_string(employee->phoneNum.mid) + "-";
         statement += std::to_string(employee->phoneNum.last) + ",";
-        statement += std::to_string(employee->birthday.year);
-        statement += std::to_string(employee->birthday.month);
-        statement += std::to_string(employee->birthday.day) + ",";
+        statement += std::to_string(employee->birthDay.year);
+        statement += std::to_string(employee->birthDay.month);
+        statement += std::to_string(employee->birthDay.day) + ",";
         statement += CertiString[employee->certi];
         printf("%s\n", statement.c_str());
     }
