@@ -1,7 +1,15 @@
+#include <iostream>
 #include "IOHandler.h"
 
 void IOHandler::commandRequest(const string& cmd) {
-	parseInput();
+	try {
+		parseInput();
+	} 
+	catch (int expn) {
+		cout << "Command is not valid" << std::endl;
+		return;
+	}
+
 	runDBMS();
 	runPrinter();
 }
@@ -46,6 +54,7 @@ void IOHandler::setCommandType() {
 
 void IOHandler::parseInput() {
 	setCommandType();
+
 	switch (cmd_type) {
 	case ADD:
 		parseADD();
