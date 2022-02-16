@@ -33,7 +33,7 @@ list<Employee*> DataBase::search(Column column, string data) {
         case Column::BIRTHDAY_DAY:
         {
             auto birthday = getBirthDay(column, data);
-            //return engine_.search(database_, birthday); // search 함수 생기면 주석 해제
+            return engine_->search(database_, birthday);
         }
         case Column::CERTI:
         {
@@ -51,20 +51,14 @@ list<Employee*> DataBase::search(Column column, string data) {
 }
 
 bool DataBase::add(Employee target) {
-    database_.emplace_back(&target);
+    Employee emp = target;
+    database_[emp.employeeNum] = emp;
     return true;
 }
 
 bool DataBase::deleteTargets(list<Employee*> target) {
     for (auto employee : target) {
-        auto id = employee->employeeNum;
-
-        auto result = std::find_if(database_.begin(), database_.end(),
-            [&id](Employee* e) {return e->employeeNum == id; });
-
-        if (result != database_.end()) {
-            database_.erase(result);
-        }
+        database_.erase(employee->employeeNum);
     }
     return true;
 }
