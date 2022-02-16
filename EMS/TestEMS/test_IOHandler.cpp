@@ -9,20 +9,20 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
-
-mock_Dbms mockDBMS;
-MockPrinter mockPrinter;
-IOHandler* ioHandler;
-list<Employee*> fakeDB;
-
-Employee data1{ 1910127115, {"KBU", "KIM"}, CL::CL3, {010, 3284, 4054}, {1966,8,14}, CERTI::ADV };
-Employee data2{ 2012117017, {"LFIS", "JJIVL"}, CL::CL1, {010, 7914, 4067}, {2012,8,12}, CERTI::PRO };
-Employee data3{ 2011125777, {"TKOQKIS", "KIM"}, CL::CL1, {010, 6734, 2289}, {1999,10,1}, CERTI::PRO };
-Employee data4{ 2019129568, {"SRERLALH", "HMEF"}, CL::CL2, {010, 3091, 9521}, {1999,10,1}, CERTI::PRO };
-Employee data5{ 2018117906, {"TWU", "QSOLT"}, CL::CL4, {010, 6672, 7186}, {2003,4,13}, CERTI::PRO };
+using ::testing::Invoke;
 
 class IOHandlerTest : public testing::Test {
 public:
+	mock_Dbms mockDBMS;
+	MockPrinter mockPrinter;
+	IOHandler* ioHandler;
+	list<Employee*> fakeDB;
+
+	Employee data1{ 1910127115, {"KBU", "KIM"}, CL::CL3, {010, 3284, 4054}, {1966,8,14}, CERTI::ADV };
+	Employee data2{ 2012117017, {"LFIS", "JJIVL"}, CL::CL1, {010, 7914, 4067}, {2012,8,12}, CERTI::PRO };
+	Employee data3{ 2011125777, {"TKOQKIS", "KIM"}, CL::CL1, {010, 6734, 2289}, {1999,10,1}, CERTI::PRO };
+	Employee data4{ 2019129568, {"SRERLALH", "HMEF"}, CL::CL2, {010, 3091, 9521}, {1999,10,1}, CERTI::PRO };
+	Employee data5{ 2018117906, {"TWU", "QSOLT"}, CL::CL4, {010, 6672, 7186}, {2003,4,13}, CERTI::PRO };
 
 	virtual ~IOHandlerTest() {}
 
@@ -37,17 +37,17 @@ public:
 
 
 	virtual void TearDown() override {
-		delete ioHandler;
+		//delete ioHandler;
 		fakeDB.clear();
 	}
 };
 
-TEST(IOHandlerTest, ADD) {
+TEST_F(IOHandlerTest, ADD) {
 	EXPECT_CALL(mockDBMS, add(_)).Times(1);
 	ioHandler->commandRequest("ADD,,,,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
 }
 
-TEST(IOHandlerTest, DEL) {
+TEST_F(IOHandlerTest, DEL) {
 
 	list<Employee*> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(&data2);
@@ -57,26 +57,26 @@ TEST(IOHandlerTest, DEL) {
 	ioHandler->commandRequest("DEL,,,,name,JJIVL LFIS");
 }
 
-TEST(IOHandlerTest, SCH) {
+TEST_F(IOHandlerTest, SCH) {
 	list<Employee*> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(&data2);
 
 	EXPECT_CALL(mockDBMS, sch(_, _)).Times(1);
 	ON_CALL(mockDBMS, sch(_, _)).WillByDefault(Return(localFakeQueryResult));
-	ioHandler->commandRequest("DEL,,,,name,JJIVL LFIS");
+	ioHandler->commandRequest("SCH,,,,name,JJIVL LFIS");
 }
 
-TEST(IOHandlerTest, MOD) {
+TEST_F(IOHandlerTest, MOD) {
 	list<Employee*> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(&data2);
 
 	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
 	ON_CALL(mockDBMS, mod(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
-	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
+	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name,KKIVL KFIS");
 }
 
-TEST(IOHandlerTest, PRINT) {
+TEST_F(IOHandlerTest, PRINT) {
 	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
 	ON_CALL(mockPrinter, print(_, "MOD"));
-	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
+	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name,KKIVL KFIS");
 }

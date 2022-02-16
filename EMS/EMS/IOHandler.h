@@ -22,7 +22,7 @@ public:
 		delete printer;
 	}
 
-	void commandRequest(const string& cmd);
+	void commandRequest(string _cmd);
 
 private:
 	void parseInput();
@@ -35,7 +35,8 @@ private:
 	void parseSCH();
 	void parseMOD();
 	void runDBMS();
-	void runPrinter();
+	void runPrinter(); 
+	Column convertStringToColumn(string str);
 
 	string cmd;
 	CMD_TYPE cmd_type;
