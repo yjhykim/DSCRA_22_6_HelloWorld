@@ -12,7 +12,7 @@ void Printer::print(list<Employee>& data, string& cmd) const {
 
     for (const auto& employee : data) {
         output_ << cmd + ",";
-        output_ << std::to_string(employee.employeeNum).substr(2, 10) + ",";
+        output_ << std::to_string(employee.employeeNum).substr(2, 8) + ",";
         output_ << employee.name.first + " " + employee.name.last + ",";
         output_ << CareerLevelString[employee.cl] + ",";
         output_ << std::setw(3) << std::setfill('0') << employee.phoneNum.start << "-";
