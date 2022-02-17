@@ -45,7 +45,7 @@ public:
 
 TEST_F(IOHandlerTest, ADD) {
 	EXPECT_CALL(mockDBMS, add(_)).Times(1);
-	ioHandler->commandRequest("ADD,,,,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
+	ioHandler->commandRequest("ADD, , , ,18050301,KYUMOK KIM,CL2,010-9777-6055,19980906,PRO");
 }
 
 TEST_F(IOHandlerTest, DEL) {
@@ -55,7 +55,7 @@ TEST_F(IOHandlerTest, DEL) {
 
 	EXPECT_CALL(mockDBMS, del(_,_)).Times(1);
 	ON_CALL(mockDBMS, del(_,_)).WillByDefault(Return(1));
-	ioHandler->commandRequest("DEL,,,,name,JJIVL LFIS");
+	ioHandler->commandRequest("DEL, , , ,name,JJIVL LFIS");
 }
 
 TEST_F(IOHandlerTest, SCH) {
@@ -64,7 +64,7 @@ TEST_F(IOHandlerTest, SCH) {
 
 	EXPECT_CALL(mockDBMS, sch(_, _)).Times(1);
 	ON_CALL(mockDBMS, sch(_, _)).WillByDefault(Return(1));
-	ioHandler->commandRequest("SCH,,,,name,JJIVL LFIS");
+	ioHandler->commandRequest("SCH, , , ,name,JJIVL LFIS");
 }
 
 /*

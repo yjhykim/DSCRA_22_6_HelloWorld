@@ -133,7 +133,7 @@ static size_t extractStringBtwComma(const string& src, string& dest, size_t star
 void IOHandler::parseOption1() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt1 = OPT1_TYPE::NONE;
 	}
 	else if (opt_string == "-p") {
@@ -147,7 +147,7 @@ void IOHandler::parseOption1() {
 void IOHandler::parseOption2() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt2 = OPT2_TYPE::NONE;
 	}
 	else if (opt_string == "-f") {
@@ -173,7 +173,7 @@ void IOHandler::parseOption2() {
 void IOHandler::parseOption3() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt3 = OPT3_TYPE::NONE;
 	}
 	else {
