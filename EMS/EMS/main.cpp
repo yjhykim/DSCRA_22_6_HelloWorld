@@ -13,9 +13,9 @@ int main(int argc, char* argv[]) {
 
 	if (inputFile.is_open()) {
 		string line;
-		Dbms dbms(new DataBase());
-		Printer printer(outputFile);
-		IOHandler io_handler((IDbms*)&dbms, (IPrinter*)&printer);
+		Dbms* dbms = new Dbms(new DataBase());
+		Printer* printer = new Printer(outputFile);
+		IOHandler io_handler((IDbms*)dbms, (IPrinter*)printer);
 
 		while (getline(inputFile, line)) {
 			io_handler.commandRequest(line);
