@@ -6,7 +6,7 @@ void IOHandler::commandRequest(string _cmd) {
 	try {
 		parseInput();
 	} 
-	catch (int expn) {
+	catch (const int& expn) {
 		cout << "Command is not valid" << std::endl;
 		return;
 	}
