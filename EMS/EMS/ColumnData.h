@@ -66,7 +66,7 @@ static PhoneNum getPhoneNum(Column column, std::string data) {
     PhoneNum phoneNum = PhoneNum();
     if (column == Column::PHONE) {
         auto text = split(data, '-');
-        if (text.size() > 3) {
+        if (text.size() == 3) {
             phoneNum = PhoneNum{
                 stoi(text[0]), stoi(text[1]), stoi(text[2]) };
         }
