@@ -42,6 +42,7 @@ private:
 	}
 
 	Column convertStringToColumn(string str);
+	Column convertStringToColumn2(string str);
 
 	string cmd;
 	int numRecord;

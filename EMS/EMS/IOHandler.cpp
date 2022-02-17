@@ -331,6 +331,30 @@ Column IOHandler::convertStringToColumn(string str) {
 	}
 }
 
+Column IOHandler::convertStringToColumn2(string str) {
+	if (str == "employeeNum") {
+		return Column::EMPLOYEE_NUM;
+	}
+	else if (str == "name") {
+		return Column::NAME;
+	}
+	else if (str == "cl") {
+		return Column::CL;
+	}
+	else if (str == "phoneNum") {
+		return Column::PHONE;
+	}
+	else if (str == "birthday") {
+		return Column::BIRTHDAY;
+	}
+	else if (str == "certi") {
+		return Column::CERTI;
+	}
+	else {
+		throw invalid_argument("Invalid column");
+	}
+}
+
 void IOHandler::parseDEL() {
 	parseSCH();
 }
@@ -356,7 +380,7 @@ void IOHandler::parseMOD() {
 
 	string colString2;
 	charIdx = extractStringBtwComma(cmd, colString2, charIdx);
-	Column col2 = convertStringToColumn(colString2);
+	Column col2 = convertStringToColumn2(colString2);
 	column.emplace_back(col2);
 	string argString2;
 	charIdx = extractStringBtwComma(cmd, argString2, charIdx);
