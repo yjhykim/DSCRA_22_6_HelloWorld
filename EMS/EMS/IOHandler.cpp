@@ -230,7 +230,7 @@ static void separatePhoneNum(const string& fullNumber, int& start, int& mid, int
 		throw invalid_argument("Phone number should be in 010-XXXX-XXXX format");
 	}
 	
-	start = 010;
+	start = 10;
 	mid = stoi(fullNumber.substr(4, 4));
 	last = stoi(fullNumber.substr(9, 4));
 }
