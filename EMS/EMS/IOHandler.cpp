@@ -162,7 +162,7 @@ void IOHandler::parseOption2() {
 	else if (opt_string == "-y") {
 		opt2 = OPT2_TYPE::YEAR;
 	}
-	else if (cmd.substr(charIdx, 2) == "-D") {
+	else if (cmd.substr(charIdx, 2) == "-d") {
 		opt2 = OPT2_TYPE::DAY;
 	}
 	else {
