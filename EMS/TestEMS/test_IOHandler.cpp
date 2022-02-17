@@ -73,12 +73,15 @@ TEST_F(IOHandlerTest, MOD) {
 	localFakeQueryResult.emplace_back(&data2);
 
 	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
-	ON_CALL(mockDBMS, mod(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
-	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name,KKIVL KFIS");
+	ON_CALL(mockPrinter, print(localFakeQueryResult,string("MOD"))).WillByDefault(Return(localFakeQueryResult));
+	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
 }
 
-TEST_F(IOHandlerTest, PRINT) {
-	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
+TEST(IOHandlerTest, PRINT) {
+	list<Employee*> localFakeQueryResult;
+	localFakeQueryResult.emplace_back(&data2);
+
+	ON_CALL(mockDBMS, mod(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
 	EXPECT_CALL(mockPrinter, print(_, string("MOD"))).Times(1);
-	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name,KKIVL KFIS");
+	ioHandler->commandRequest("MOD,,,,name,JJIVL LFIS,name KKIVL KFIS");
 }
