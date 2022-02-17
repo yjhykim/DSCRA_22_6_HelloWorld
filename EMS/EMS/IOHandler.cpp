@@ -209,13 +209,13 @@ static CL getCLEnum(const string& cl) {
 		return CL::CL1;
 	}
 	else if (cl == "CL2") {
-		return CL::CL1;
+		return CL::CL2;
 	}
 	else if (cl == "CL3") {
-		return CL::CL1;
+		return CL::CL3;
 	}
 	else if (cl == "CL4") {
-		return CL::CL1;
+		return CL::CL4;
 	}
 	else {
 		throw invalid_argument("Invalid CL");
