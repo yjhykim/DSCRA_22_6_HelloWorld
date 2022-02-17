@@ -21,6 +21,21 @@ void IOHandler::commandRequest(string _cmd) {
 	}
 }
 
+void IOHandler::init() {
+	cmd = "";
+	numRecord = 0;
+	cmd_type = CMD_TYPE::NONE;
+	employeeInfo = { 0 };
+	column.clear();
+	stringInfo.clear();
+	printInfo.clear();
+
+	charIdx = 0;
+	opt1 = OPT1_TYPE::NONE;
+	opt2 = OPT2_TYPE::NONE;
+	opt3 = OPT3_TYPE::NONE;	
+}
+
 void IOHandler::runPrinter() {
 	string cmdType = getCMDTypeAsString();
 	printer->print(printInfo, cmdType);
@@ -44,7 +59,7 @@ void IOHandler::runDBMS() {
 			printInfo = dbms->sch_p(column[0], stringInfo[0]);
 		}
 		else {
-			numRecord = dbms->del(column[0], stringInfo[0]);
+			numRecord = dbms->sch(column[0], stringInfo[0]);
 		}
 		break;
 	case CMD_TYPE::MOD:

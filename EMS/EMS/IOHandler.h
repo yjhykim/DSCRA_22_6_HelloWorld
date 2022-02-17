@@ -25,6 +25,7 @@ public:
 	void commandRequest(string _cmd);
 
 private:
+	void init();
 	void parseInput();
 	void setCommandType();
 	void parseOption1();
