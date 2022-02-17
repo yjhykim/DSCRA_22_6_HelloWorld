@@ -38,3 +38,5 @@ static map<CERTI, string> CertiString = {
 
 const int NULL_DATA = -1;
 const int EMP_ID_NUM_OF_DIGITS = 1000000;
+
+const int MAX_OUT_DATA = 5;
