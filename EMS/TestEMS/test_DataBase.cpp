@@ -3,6 +3,10 @@
 #include "mock_SearchEngine.h"
 
 using ::testing::Test;
+using ::testing::_;
+using ::testing::Return;
+using ::testing::A;
+using ::testing::Matcher;
 
 class FixtureDataBase : public ::testing::Test {
 protected:
@@ -31,6 +35,10 @@ protected:
 
     void TearDown() override {}
 
+    void setMock() {
+        database.setSearchEngine(&searchEngine_);
+    }
+
     void addData() {
         for (auto data : testData) {
             database.add(data);
@@ -40,7 +48,52 @@ protected:
 public:
     vector<Employee> testData;
     DataBase database;
+    MockSearchEngine searchEngine_;
 };
+
+
+TEST_F(FixtureDataBase, MockSearchEmployeeNum) {
+    setMock();
+    addData();
+
+    list<Employee*> result = { &testData[5] };
+    EXPECT_CALL(searchEngine_, search(A<map<int, Employee>&>(), A<int>())).Times(2);
+    ON_CALL(searchEngine_, search(A<map<int, Employee>&>(), Matcher<int>(2017111236))).WillByDefault(Return(result));
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "17111236");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(2017111236, employees.front()->employeeNum);
+
+    employees = database.search(Column::EMPLOYEE_NUM, "55125741");
+    EXPECT_EQ(0, employees.size());
+}
+
+TEST_F(FixtureDataBase, MockSearchName) {
+    setMock();
+    addData();
+
+    EXPECT_CALL(searchEngine_, search(A<map<int, Employee>&>(), A<Name&>())).Times(3);
+    ON_CALL(searchEngine_, search(A<map<int, Employee>&>(), A<Name&>()))
+        .WillByDefault(Return(list<Employee*>{ &testData[5] }));
+
+    auto employees = database.search(Column::NAME, "VSID TVO");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(2017111236, employees.front()->employeeNum);
+
+    ON_CALL(searchEngine_, search(A<map<int, Employee>&>(), A<Name&>()))
+        .WillByDefault(Return(list<Employee*>{ &testData[15] }));
+
+    employees = database.search(Column::FIRST_NAME, "KBU");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(2010127115, employees.front()->employeeNum);
+
+    ON_CALL(searchEngine_, search(A<map<int, Employee>&>(), A<Name&>()))
+        .WillByDefault(Return(list<Employee*>{ &testData[1] }));
+
+    employees = database.search(Column::LAST_NAME, "NTAWR");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(2017112609, employees.front()->employeeNum);
+}
 
 TEST_F(FixtureDataBase, SearchEmployeeNum) {
     addData();
@@ -94,6 +147,46 @@ TEST_F(FixtureDataBase, SearchCerti) {
 
     employees.pop_front();
     EXPECT_EQ(2001122329, employees.front()->employeeNum);
+}
+
+TEST_F(FixtureDataBase, SearchBirthday) {
+    addData();
+
+    auto employees = database.search(Column::BIRTHDAY, "19911021");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(1988114052, employees.front()->employeeNum);
+
+    employees = database.search(Column::BIRTHDAY_YEAR, "1964");
+    ASSERT_EQ(2, employees.size());
+    EXPECT_EQ(2011109136, employees.front()->employeeNum);
+
+    employees = database.search(Column::BIRTHDAY_MONTH, "02");
+    ASSERT_EQ(3, employees.size());
+    EXPECT_EQ(1985125741, employees.front()->employeeNum);
+
+    employees = database.search(Column::BIRTHDAY_DAY, "01");
+    ASSERT_EQ(2, employees.size());
+    EXPECT_EQ(2011125777, employees.front()->employeeNum);
+}
+
+TEST_F(FixtureDataBase, SearchCL) {
+    addData();
+
+    auto employees = database.search(Column::CL, "CL1");
+    ASSERT_EQ(5, employees.size());
+    EXPECT_EQ(1985125741, employees.front()->employeeNum);
+
+    employees = database.search(Column::CL, "CL2");
+    ASSERT_EQ(2, employees.size());
+    EXPECT_EQ(2003113260, employees.front()->employeeNum);
+
+    employees = database.search(Column::CL, "CL3");
+    ASSERT_EQ(4, employees.size());
+    EXPECT_EQ(2008117441, employees.front()->employeeNum);
+
+    employees = database.search(Column::CL, "CL4");
+    ASSERT_EQ(9, employees.size());
+    EXPECT_EQ(1988114052, employees.front()->employeeNum);
 }
 
 TEST_F(FixtureDataBase, Delete) {
