@@ -6,19 +6,50 @@ Dbms::Dbms(IDataBase* db) {
 	_db = db;
 }
 
+void copyResultData(list<Employee*> selectedItems, list<Employee>* result) {
+	int cnt = 0;
+
+	for (auto &item : selectedItems) {
+		result->emplace_back(*item);
+		if (++cnt >= MAX_OUT_DATA)
+			break;
+	}
+}
+
 void Dbms::add(Employee data) {
 	_db->add(data);
 }
 
-list<Employee*> Dbms::del(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	_db->deleteTargets(list);
-	return list;
+int Dbms::del(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+	_db->deleteTargets(selectedItems);
+	return selectedItems.size();
 }
 
-list<Employee*> Dbms::sch(Column type, string data) {
-	list<Employee*> list = _db->search(type, data);
-	return list;
+list<Employee> Dbms::del_p(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
+
+	_db->deleteTargets(selectedItems);
+
+	return result;
+}
+
+int Dbms::sch(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+
+	return selectedItems.size();
+}
+
+list<Employee> Dbms::sch_p(Column type, string data) {
+	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
+
+	return result;
 }
 
 vector<string> tokenize_getline(const string& data, const char delimiter = ' ') {
@@ -27,7 +58,7 @@ vector<string> tokenize_getline(const string& data, const char delimiter = ' ') 
 	stringstream ss(data);
 
 	while (getline(ss, token, delimiter)) result.push_back(token);
-	
+
 	return result;
 }
 
@@ -75,10 +106,21 @@ void editColumn(Employee* target, const Column type, const string data) {
 	}
 }
 
-list<Employee*> Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
-	list<Employee*> list = _db->search(typeFrom, dataFrom);
+int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
+	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
 
-	for (auto e : list) editColumn(e, typeTo, dataTo);
+	for (auto &e : selectedItems) editColumn(e, typeTo, dataTo);
 
-	return list;
+	return selectedItems.size();
+}
+
+list<Employee> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
+	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
+	list<Employee> result;
+
+	copyResultData(selectedItems, &result);
+
+	for (auto &e : selectedItems) editColumn(e, typeTo, dataTo);
+
+	return result;
 }
