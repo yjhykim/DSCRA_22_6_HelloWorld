@@ -162,7 +162,7 @@ void IOHandler::parseOption2() {
 	else if (opt_string == "-y") {
 		opt2 = OPT2_TYPE::YEAR;
 	}
-	else if (cmd.substr(charIdx, 2) == "-d") {
+	else if (opt_string == "-d") {
 		opt2 = OPT2_TYPE::DAY;
 	}
 	else {
@@ -314,7 +314,7 @@ Column IOHandler::convertStringToColumn(string str) {
 		if (opt2 == OPT2_TYPE::LAST) return Column::PHONE_LAST;
 		return Column::PHONE;
 	}
-	else if (str == "birthDay") {
+	else if (str == "birthday") {
 		if (opt2 == OPT2_TYPE::YEAR) return Column::BIRTHDAY_YEAR;
 		if (opt2 == OPT2_TYPE::MID_OR_MONTH) return Column::BIRTHDAY_MONTH;
 		if (opt2 == OPT2_TYPE::DAY) return Column::BIRTHDAY_DAY;
