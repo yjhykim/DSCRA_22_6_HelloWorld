@@ -2,17 +2,39 @@
 #include "IOHandler.h"
 
 void IOHandler::commandRequest(string _cmd) {
+	init();
 	cmd = _cmd + ";"; // ;는 문장의 끝을 의미합니다.
 	try {
 		parseInput();
 	} 
-	catch (int expn) {
+	catch (const int& expn) {
 		cout << "Command is not valid" << std::endl;
 		return;
 	}
 
 	runDBMS();
-	runPrinter();
+	if (cmd_type == CMD_TYPE::ADD) return;
+	if (opt1 == OPT1_TYPE::PRINT) {
+		runPrinter();
+	}
+	else {
+		cout << numRecord << endl;
+	}
+}
+
+void IOHandler::init() {
+	cmd = "";
+	numRecord = 0;
+	cmd_type = CMD_TYPE::NONE;
+	employeeInfo = { 0 };
+	column.clear();
+	stringInfo.clear();
+	printInfo.clear();
+
+	charIdx = 0;
+	opt1 = OPT1_TYPE::NONE;
+	opt2 = OPT2_TYPE::NONE;
+	opt3 = OPT3_TYPE::NONE;	
 }
 
 void IOHandler::runPrinter() {
@@ -26,13 +48,28 @@ void IOHandler::runDBMS() {
 		dbms->add(employeeInfo);
 		break;
 	case CMD_TYPE::DEL:
-		printInfo = dbms->del(column[0], stringInfo[0]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->del_p(column[0], stringInfo[0]);
+		}
+		else {
+			numRecord = dbms->del(column[0], stringInfo[0]);
+		}
 		break;
 	case CMD_TYPE::SCH:
-		printInfo = dbms->sch(column[0], stringInfo[0]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->sch_p(column[0], stringInfo[0]);
+		}
+		else {
+			numRecord = dbms->sch(column[0], stringInfo[0]);
+		}
 		break;
 	case CMD_TYPE::MOD:
-		printInfo = dbms->mod(column[0], stringInfo[0], column[1], stringInfo[1]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->mod_p(column[0], stringInfo[0], column[1], stringInfo[1]);
+		}
+		else {
+			numRecord = dbms->mod(column[0], stringInfo[0], column[1], stringInfo[1]);
+		}
 		break;
 	default:
 		break;
@@ -56,7 +93,7 @@ void IOHandler::setCommandType() {
 	else {
 		throw invalid_argument("Command " + cmd_type_str + " is not supported");
 	}
-	charIdx = 3+1;
+	charIdx = cmd_type_str.length() + SEPARATOR_LENGTH;
 }
 
 void IOHandler::parseInput() {
@@ -96,7 +133,7 @@ static size_t extractStringBtwComma(const string& src, string& dest, size_t star
 void IOHandler::parseOption1() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt1 = OPT1_TYPE::NONE;
 	}
 	else if (opt_string == "-p") {
@@ -110,7 +147,7 @@ void IOHandler::parseOption1() {
 void IOHandler::parseOption2() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt2 = OPT2_TYPE::NONE;
 	}
 	else if (opt_string == "-f") {
@@ -136,7 +173,7 @@ void IOHandler::parseOption2() {
 void IOHandler::parseOption3() {
 	string opt_string;
 	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
-	if (opt_string == "") {
+	if (opt_string == " ") {
 		opt3 = OPT3_TYPE::NONE;
 	}
 	else {
@@ -225,7 +262,6 @@ static CERTI getCertiEnum(string certi) {
 }
 
 void IOHandler::parseADD() {
-
 	string employeeID;
 	charIdx = extractStringBtwComma(cmd, employeeID, charIdx);
 	employeeID = IDFormatting(employeeID);
