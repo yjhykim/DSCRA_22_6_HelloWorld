@@ -29,7 +29,7 @@ SCH,-p, , ,cl,CL4
 SCH, ,-m, ,birthday,09
 MOD,-p, , ,name,FB NTAWR,cl,CL3
 MOD,-p, , ,employeeNum,08123556,birthday,20110706
-SCH,-p, , ,birthday,20030823
+SCH,-p,-y, ,birthday,2003
 SCH,-p, , ,employeeNum,05101762
 SCH,-p,-m, ,phoneNum,3112
 SCH,-p,-l, ,phoneNum,4605

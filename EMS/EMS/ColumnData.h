@@ -82,27 +82,31 @@ static PhoneNum getPhoneNum(Column column, std::string data) {
 
 static Birthday getBirthDay(Column column, std::string data) {
     Birthday birthday = Birthday();
-    int idata = stoi(data);
     int year{ NULL_DATA };
     int month{ NULL_DATA };
     int day{ NULL_DATA };
+    int idata{ NULL_DATA };
+    try {
+        idata = stoi(data);
 
-    if (column == Column::BIRTHDAY) {
-        int MMdd = idata % 10000;
-        year = idata / 1000;
-        month = MMdd / 100;
-        day = MMdd % 100;
+        if (column == Column::BIRTHDAY) {
+            year = stoi(data.substr(0, 4));
+            month = stoi(data.substr(4, 2));
+            day = stoi(data.substr(6, 2));
+        }
+        else if (column == Column::BIRTHDAY_YEAR) {
+            year = idata;
+        }
+        else if (column == Column::BIRTHDAY_MONTH) {
+            month = idata;
+        }
+        else if (column == Column::BIRTHDAY_DAY) {
+            day = idata;
+        }
+        birthday = Birthday{ year, month, day };
     }
-    else if (column == Column::BIRTHDAY_YEAR) {
-        year = idata;
+    catch (const std::exception& e) {
+        printf("exception: %s\n", e.what());
     }
-    else if (column == Column::BIRTHDAY_MONTH) {
-        month = idata;
-    }
-    else if (column == Column::BIRTHDAY_DAY) {
-        day = idata;
-    }
-    birthday = Birthday{ year, month, day };
-
     return birthday;
 }
