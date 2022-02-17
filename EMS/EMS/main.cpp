@@ -18,7 +18,6 @@ int main(int argc, char* argv[]) {
 		IOHandler io_handler((IDbms*)dbms, (IPrinter*)printer);
 
 		while (getline(inputFile, line)) {
-			cout << line << endl;
 			io_handler.commandRequest(line);
 		}
 	}
