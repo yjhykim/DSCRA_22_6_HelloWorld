@@ -20,5 +20,12 @@ void Printer::print(list<Employee>& data, string& cmd) const {
         output_ << CertiString[employee.certi];
         output_ << endl;
     }
+}
 
+void Printer::print(int num, string& cmd) const {
+    if (num != 0) {
+        output_ << cmd << "," << num << endl;
+        return;
+    }
+    output_ << cmd << ",NONE"<<endl;
 }
