@@ -12,7 +12,13 @@ void IOHandler::commandRequest(string _cmd) {
 	}
 
 	runDBMS();
-	runPrinter();
+	if (cmd_type == CMD_TYPE::ADD) return;
+	if (opt1 == OPT1_TYPE::PRINT) {
+		runPrinter();
+	}
+	else {
+		cout << numRecord << endl;
+	}
 }
 
 void IOHandler::runPrinter() {
@@ -26,13 +32,28 @@ void IOHandler::runDBMS() {
 		dbms->add(employeeInfo);
 		break;
 	case CMD_TYPE::DEL:
-		printInfo = dbms->del(column[0], stringInfo[0]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->del_p(column[0], stringInfo[0]);
+		}
+		else {
+			numRecord = dbms->del(column[0], stringInfo[0]);
+		}
 		break;
 	case CMD_TYPE::SCH:
-		printInfo = dbms->sch(column[0], stringInfo[0]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->sch_p(column[0], stringInfo[0]);
+		}
+		else {
+			numRecord = dbms->del(column[0], stringInfo[0]);
+		}
 		break;
 	case CMD_TYPE::MOD:
-		printInfo = dbms->mod(column[0], stringInfo[0], column[1], stringInfo[1]);
+		if (opt1 == OPT1_TYPE::PRINT) {
+			printInfo = dbms->mod_p(column[0], stringInfo[0], column[1], stringInfo[1]);
+		}
+		else {
+			numRecord = dbms->mod(column[0], stringInfo[0], column[1], stringInfo[1]);
+		}
 		break;
 	default:
 		break;
@@ -56,7 +77,7 @@ void IOHandler::setCommandType() {
 	else {
 		throw invalid_argument("Command " + cmd_type_str + " is not supported");
 	}
-	charIdx = 3+1;
+	charIdx = cmd_type_str.length() + SEPARATOR_LENGTH;
 }
 
 void IOHandler::parseInput() {
