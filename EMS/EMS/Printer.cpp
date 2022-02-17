@@ -5,6 +5,11 @@
 #include <iomanip>
 
 void Printer::print(list<Employee>& data, string& cmd) const {
+    if (data.size() == 0) {
+        output_ << cmd + ",NONE" << endl;
+        return;
+    }
+
     for (const auto& employee : data) {
         output_ << cmd + ",";
         output_ << std::to_string(employee.employeeNum).substr(2, 10) + ",";
