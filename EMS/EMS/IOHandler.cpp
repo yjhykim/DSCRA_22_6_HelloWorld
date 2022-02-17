@@ -14,12 +14,8 @@ void IOHandler::commandRequest(string _cmd) {
 
 	runDBMS();
 	if (cmd_type == CMD_TYPE::ADD) return;
-	if (opt1 == OPT1_TYPE::PRINT) {
-		runPrinter();
-	}
-	else {
-		cout << numRecord << endl;
-	}
+
+	runPrinter();
 }
 
 void IOHandler::init() {
@@ -39,7 +35,12 @@ void IOHandler::init() {
 
 void IOHandler::runPrinter() {
 	string cmdType = getCMDTypeAsString();
-	printer->print(printInfo, cmdType);
+	if (opt1 == OPT1_TYPE::PRINT) {
+		printer->print(printInfo, cmdType);
+	}
+	else {
+		printer->print(numRecord, cmdType);
+	}
 }
 
 void IOHandler::runDBMS() {
