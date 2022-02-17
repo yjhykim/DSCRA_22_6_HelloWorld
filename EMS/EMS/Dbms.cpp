@@ -1,6 +1,6 @@
 #include "Dbms.h"
 #include <vector>
-#include <sstream>
+#include "StringUtil.h"
 
 Dbms::Dbms(IDataBase* db) {
 	_db = db;
@@ -52,16 +52,6 @@ list<Employee> Dbms::sch_p(Column type, string data) {
 	return result;
 }
 
-vector<string> tokenize_getline(const string& data, const char delimiter = ' ') {
-	vector<string> result;
-	string token;
-	stringstream ss(data);
-
-	while (getline(ss, token, delimiter)) result.push_back(token);
-
-	return result;
-}
-
 void editColumn(Employee* target, const Column type, const string data) {
 	vector<string> tokenizedStr;
 
@@ -70,7 +60,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 		target->employeeNum = stoi(data);
 		break;
 	case Column::NAME:
-		tokenizedStr = tokenize_getline(data, ' ');
+		tokenizedStr = split(data, ' ');
 		target->name.first = tokenizedStr.at(0);
 		target->name.last = tokenizedStr.at(1);
 		break;
@@ -85,7 +75,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 			target->cl = CL::CL4;
 		break;
 	case Column::PHONE:
-		tokenizedStr = tokenize_getline(data, '-');
+		tokenizedStr = split(data, '-');
 		target->phoneNum.start = stoi(tokenizedStr.at(0));
 		target->phoneNum.mid = stoi(tokenizedStr.at(1));
 		target->phoneNum.last = stoi(tokenizedStr.at(2));

@@ -154,6 +154,7 @@
     <ClInclude Include="IOHandler.h" />
     <ClInclude Include="Printer.h" />
     <ClInclude Include="SearchEngine.h" />
+    <ClInclude Include="StringUtil.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>

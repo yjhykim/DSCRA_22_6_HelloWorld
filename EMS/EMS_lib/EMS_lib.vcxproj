@@ -154,6 +154,7 @@
     <ClInclude Include="..\EMS\IOHandler.h" />
     <ClInclude Include="..\EMS\Printer.h" />
     <ClInclude Include="..\EMS\SearchEngine.h" />
+    <ClInclude Include="..\EMS\StringUtil.h" />
     <ClInclude Include="..\EMS\Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
