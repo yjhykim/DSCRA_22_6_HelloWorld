@@ -1,4 +1,3 @@
-
 #include "pch.h"
 #include "../EMS/Dbms.h"
 #include "mock_DataBase.h"
@@ -8,8 +7,6 @@ using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
 using ::testing::Invoke;
-
-
 
 class DbmsTest : public testing::Test {
 public:
@@ -92,40 +89,60 @@ TEST_F(DbmsTest, sch_p_singularOutput) {
 
 TEST_F(DbmsTest, sch_multipleOutput) {
 
+    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
+
     list<Employee*> fake_queryResult1;
     fake_queryResult1.emplace_back(&data1);
     fake_queryResult1.emplace_back(&data5);
-
-    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
-    ON_CALL(mockDb, search(Column::LAST_NAME, "KIM")).WillByDefault(Return(fake_queryResult1));
 
     list<Employee*> fake_queryResult2;
     fake_queryResult2.emplace_back(&data5);
     fake_queryResult2.emplace_back(&data9);
 
+    list<Employee*> fake_queryResult3;
+    fake_queryResult3.emplace_back(&data2);
+    fake_queryResult3.emplace_back(&data3);
+    fake_queryResult3.emplace_back(&data4);
+    fake_queryResult3.emplace_back(&data5);
+    fake_queryResult3.emplace_back(&data8);
+    fake_queryResult3.emplace_back(&data9);
+
+    ON_CALL(mockDb, search(Column::LAST_NAME, "KIM")).WillByDefault(Return(fake_queryResult1));
     ON_CALL(mockDb, search(Column::BIRTHDAY, "19991001")).WillByDefault(Return(fake_queryResult2));
+    ON_CALL(mockDb, search(Column::CERTI, "PRO")).WillByDefault(Return(fake_queryResult3));
 
     EXPECT_EQ(2, dbms->sch(Column::LAST_NAME, "KIM"));
     EXPECT_EQ(2, dbms->sch(Column::BIRTHDAY, "19991001"));
+    EXPECT_EQ(fake_queryResult3.size(), dbms->sch(Column::CERTI, "PRO"));
 }
 
 TEST_F(DbmsTest, sch_p_multipleOutput) {
 
+    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
+
     list<Employee*> fake_queryResult1;
     fake_queryResult1.emplace_back(&data1);
     fake_queryResult1.emplace_back(&data5);
-
-    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
-    ON_CALL(mockDb, search(Column::LAST_NAME, "KIM")).WillByDefault(Return(fake_queryResult1));
 
     list<Employee*> fake_queryResult2;
     fake_queryResult2.emplace_back(&data5);
     fake_queryResult2.emplace_back(&data9);
 
+    list<Employee*> fake_queryResult3;
+    fake_queryResult3.emplace_back(&data2);
+    fake_queryResult3.emplace_back(&data3);
+    fake_queryResult3.emplace_back(&data4);
+    fake_queryResult3.emplace_back(&data5);
+    fake_queryResult3.emplace_back(&data8);
+    fake_queryResult3.emplace_back(&data9);
+
+    ON_CALL(mockDb, search(Column::LAST_NAME, "KIM")).WillByDefault(Return(fake_queryResult1));
     ON_CALL(mockDb, search(Column::BIRTHDAY, "19991001")).WillByDefault(Return(fake_queryResult2));
+    ON_CALL(mockDb, search(Column::CERTI, "PRO")).WillByDefault(Return(fake_queryResult3));
 
     EXPECT_EQ(2, (dbms->sch_p(Column::LAST_NAME, "KIM")).size());
     EXPECT_EQ(2, (dbms->sch_p(Column::BIRTHDAY, "19991001")).size());
+    EXPECT_EQ(MAX_OUT_DATA, dbms->sch_p(Column::CERTI, "PRO").size());
 }
 
 TEST_F(DbmsTest, del) {
@@ -140,7 +157,7 @@ TEST_F(DbmsTest, del) {
 
     EXPECT_CALL(mockDb, deleteTargets(_)).Times(1);
     ON_CALL(mockDb, deleteTargets(_)).WillByDefault(Invoke([=](list<Employee*> list) -> bool {
-        for (auto e : list) {
+        for (auto& e : list) {
             fake_db.remove(e);
         }
 
@@ -167,7 +184,7 @@ TEST_F(DbmsTest, del_p) {
 
     EXPECT_CALL(mockDb, deleteTargets(_)).Times(1);
     ON_CALL(mockDb, deleteTargets(_)).WillByDefault(Invoke([=](list<Employee*> list) -> bool {
-        for (auto e : list) {
+        for (auto& e : list) {
             fake_db.remove(e);
         }
 
@@ -391,7 +408,7 @@ TEST_F(DbmsTest, mod_birthday) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
-    int result = dbms->mod(Column::CL, "CL1", Column::BIRTHDAY, "20200216");
+    auto result = dbms->mod(Column::CL, "CL1", Column::BIRTHDAY, "20200216");
 
     EXPECT_EQ(modTargets.size(), result);
 
@@ -432,7 +449,12 @@ TEST_F(DbmsTest, mod_p_birthday) {
                 (e->birthDay.month == 2) &&
                 (e->birthDay.day == 16);
             }));
+
+    //req MOD-p: MOD 명령어에서 출력되는 record는 명령 조건에 의해 column 값이 변경되기 전의 record이다
+    EXPECT_EQ(0, count_if(result.begin(), result.end(), [](Employee e) {
+        return (e.cl == CL::CL1) &&
+            (e.birthDay.year == 2020) &&
+            (e.birthDay.month == 2) &&
+            (e.birthDay.day == 16);
+        }));
 }
-
-
-
