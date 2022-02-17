@@ -41,4 +41,4 @@ const int EMP_ID_NUM_OF_DIGITS = 1000000;
 
 const int MAX_OUT_DATA = 5;
 
-const int SEPARATOR_LENGTH = 0;
+const int SEPARATOR_LENGTH = 1;

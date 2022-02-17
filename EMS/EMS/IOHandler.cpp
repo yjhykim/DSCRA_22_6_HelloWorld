@@ -246,7 +246,6 @@ static CERTI getCertiEnum(string certi) {
 }
 
 void IOHandler::parseADD() {
-
 	string employeeID;
 	charIdx = extractStringBtwComma(cmd, employeeID, charIdx);
 	employeeID = IDFormatting(employeeID);
