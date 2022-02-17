@@ -305,6 +305,8 @@ Column IOHandler::convertStringToColumn(string str) {
 		return Column::EMPLOYEE_NUM;
 	}
 	else if (str == "name") {
+		if (opt2 == OPT2_TYPE::FIRST) return Column::FIRST_NAME;
+		if (opt2 == OPT2_TYPE::LAST) return Column::LAST_NAME;
 		return Column::NAME;
 	}
 	else if (str == "cl") {
