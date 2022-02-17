@@ -14,12 +14,8 @@ void IOHandler::commandRequest(string _cmd) {
 
 	runDBMS();
 	if (cmd_type == CMD_TYPE::ADD) return;
-	if (opt1 == OPT1_TYPE::PRINT) {
-		runPrinter();
-	}
-	else {
-		cout << numRecord << endl;
-	}
+
+	runPrinter();
 }
 
 void IOHandler::init() {
@@ -39,7 +35,12 @@ void IOHandler::init() {
 
 void IOHandler::runPrinter() {
 	string cmdType = getCMDTypeAsString();
-	printer->print(printInfo, cmdType);
+	if (opt1 == OPT1_TYPE::PRINT) {
+		printer->print(printInfo, cmdType);
+	}
+	else {
+		printer->print(numRecord, cmdType);
+	}
 }
 
 void IOHandler::runDBMS() {
@@ -162,7 +163,7 @@ void IOHandler::parseOption2() {
 	else if (opt_string == "-y") {
 		opt2 = OPT2_TYPE::YEAR;
 	}
-	else if (cmd.substr(charIdx, 2) == "-D") {
+	else if (opt_string == "-d") {
 		opt2 = OPT2_TYPE::DAY;
 	}
 	else {
@@ -208,13 +209,13 @@ static CL getCLEnum(const string& cl) {
 		return CL::CL1;
 	}
 	else if (cl == "CL2") {
-		return CL::CL1;
+		return CL::CL2;
 	}
 	else if (cl == "CL3") {
-		return CL::CL1;
+		return CL::CL3;
 	}
 	else if (cl == "CL4") {
-		return CL::CL1;
+		return CL::CL4;
 	}
 	else {
 		throw invalid_argument("Invalid CL");
@@ -230,7 +231,7 @@ static void separatePhoneNum(const string& fullNumber, int& start, int& mid, int
 		throw invalid_argument("Phone number should be in 010-XXXX-XXXX format");
 	}
 	
-	start = 010;
+	start = 10;
 	mid = stoi(fullNumber.substr(4, 4));
 	last = stoi(fullNumber.substr(9, 4));
 }
@@ -304,6 +305,8 @@ Column IOHandler::convertStringToColumn(string str) {
 		return Column::EMPLOYEE_NUM;
 	}
 	else if (str == "name") {
+		if (opt2 == OPT2_TYPE::FIRST) return Column::FIRST_NAME;
+		if (opt2 == OPT2_TYPE::LAST) return Column::LAST_NAME;
 		return Column::NAME;
 	}
 	else if (str == "cl") {
@@ -314,7 +317,7 @@ Column IOHandler::convertStringToColumn(string str) {
 		if (opt2 == OPT2_TYPE::LAST) return Column::PHONE_LAST;
 		return Column::PHONE;
 	}
-	else if (str == "birthDay") {
+	else if (str == "birthday") {
 		if (opt2 == OPT2_TYPE::YEAR) return Column::BIRTHDAY_YEAR;
 		if (opt2 == OPT2_TYPE::MID_OR_MONTH) return Column::BIRTHDAY_MONTH;
 		if (opt2 == OPT2_TYPE::DAY) return Column::BIRTHDAY_DAY;
