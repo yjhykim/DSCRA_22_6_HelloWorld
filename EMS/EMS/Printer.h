@@ -12,7 +12,7 @@ public:
     virtual void print(list<Employee>& data, string& cmd) const = 0;
 };
 
-class Printer {
+class Printer : public IPrinter {
 public:
     Printer(ofstream& output) : output_(output) {}
     ~Printer() {}
