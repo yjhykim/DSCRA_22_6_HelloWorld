@@ -89,7 +89,7 @@ static Birthday getBirthDay(Column column, std::string data) {
 
     if (column == Column::BIRTHDAY) {
         int MMdd = idata % 10000;
-        year = idata / 1000;
+        year = idata / 10000;
         month = MMdd / 100;
         day = MMdd % 100;
     }
