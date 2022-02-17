@@ -2,6 +2,7 @@
 #include "IOHandler.h"
 
 void IOHandler::commandRequest(string _cmd) {
+	init();
 	cmd = _cmd + ";"; // ;는 문장의 끝을 의미합니다.
 	try {
 		parseInput();
