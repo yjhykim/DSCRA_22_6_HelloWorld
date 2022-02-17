@@ -15,55 +15,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\EMS\DataBase.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Dbms.cpp">
+    <ClCompile Include="..\EMS\Dbms.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SearchEngine.cpp">
+    <ClCompile Include="..\EMS\IOHandler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Printer.cpp">
+    <ClCompile Include="..\EMS\main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DataBase.cpp">
+    <ClCompile Include="..\EMS\Printer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="IOHandler.cpp">
+    <ClCompile Include="..\EMS\SearchEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CommandHandler.h">
+    <ClInclude Include="..\EMS\ColumnData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Employee.h">
+    <ClInclude Include="..\EMS\CommandHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SearchEngine.h">
+    <ClInclude Include="..\EMS\DataBase.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DataBase.h">
+    <ClInclude Include="..\EMS\Dbms.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Dbms.h">
+    <ClInclude Include="..\EMS\Employee.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="IOHandler.h">
+    <ClInclude Include="..\EMS\IOHandler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Printer.h">
+    <ClInclude Include="..\EMS\Printer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
+    <ClInclude Include="..\EMS\SearchEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ColumnData.h">
+    <ClInclude Include="..\EMS\Types.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

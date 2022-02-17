@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EMS", "EMS\EMS.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestEMS", "TestEMS\TestEMS.vcxproj", "{EC0AE21B-2EDC-4177-8832-306019D9221A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EMS_lib", "EMS_lib\EMS_lib.vcxproj", "{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{EC0AE21B-2EDC-4177-8832-306019D9221A}.Release|x64.Build.0 = Release|x64
 		{EC0AE21B-2EDC-4177-8832-306019D9221A}.Release|x86.ActiveCfg = Release|Win32
 		{EC0AE21B-2EDC-4177-8832-306019D9221A}.Release|x86.Build.0 = Release|Win32
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Debug|x64.ActiveCfg = Debug|x64
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Debug|x64.Build.0 = Debug|x64
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Debug|x86.ActiveCfg = Debug|Win32
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Debug|x86.Build.0 = Debug|Win32
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Release|x64.ActiveCfg = Release|x64
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Release|x64.Build.0 = Release|x64
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Release|x86.ActiveCfg = Release|Win32
+		{123C2683-6226-4A60-BF2D-EFABC9DFAB2E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
