@@ -1,9 +1,9 @@
 #include <iostream>
 #include "IOHandler.h"
 
-void IOHandler::commandRequest(string _cmd) {
+void IOHandler::commandRequest(string cmd) {
 	init();
-	cmd = _cmd + ";"; // ;는 문장의 끝을 의미합니다.
+	cmd_ = cmd + ";"; // ;는 문장의 끝을 의미합니다.
 	try {
 		parseInput();
 	} 
@@ -13,63 +13,63 @@ void IOHandler::commandRequest(string _cmd) {
 	}
 
 	runDBMS();
-	if (cmd_type == CMD_TYPE::ADD) return;
+	if (cmd_type_ == CMD_TYPE::ADD) return;
 
 	runPrinter();
 }
 
 void IOHandler::init() {
-	cmd = "";
-	numRecord = 0;
-	cmd_type = CMD_TYPE::NONE;
-	employeeInfo = { 0 };
-	column.clear();
-	stringInfo.clear();
-	printInfo.clear();
+	cmd_ = "";
+	numRecord_ = 0;
+	cmd_type_ = CMD_TYPE::NONE;
+	employeeInfo_ = { 0 };
+	column_.clear();
+	stringInfo_.clear();
+	printInfo_.clear();
 
-	charIdx = 0;
-	opt1 = OPT1_TYPE::NONE;
-	opt2 = OPT2_TYPE::NONE;
-	opt3 = OPT3_TYPE::NONE;	
+	charIdx_ = 0;
+	opt1_ = OPT1_TYPE::NONE;
+	opt2_ = OPT2_TYPE::NONE;
+	opt3_ = OPT3_TYPE::NONE;	
 }
 
 void IOHandler::runPrinter() {
 	string cmdType = getCMDTypeAsString();
-	if (opt1 == OPT1_TYPE::PRINT) {
-		printer->print(printInfo, cmdType);
+	if (opt1_ == OPT1_TYPE::PRINT) {
+		printer_->print(printInfo_, cmdType);
 	}
 	else {
-		printer->print(numRecord, cmdType);
+		printer_->print(numRecord_, cmdType);
 	}
 }
 
 void IOHandler::runDBMS() {
-	switch (cmd_type) {
+	switch (cmd_type_) {
 	case CMD_TYPE::ADD:
-		dbms->add(employeeInfo);
+		dbms_->add(employeeInfo_);
 		break;
 	case CMD_TYPE::DEL:
-		if (opt1 == OPT1_TYPE::PRINT) {
-			printInfo = dbms->del_p(column[0], stringInfo[0]);
+		if (opt1_ == OPT1_TYPE::PRINT) {
+			printInfo_ = dbms_->del_p(column_[0], stringInfo_[0]);
 		}
 		else {
-			numRecord = dbms->del(column[0], stringInfo[0]);
+			numRecord_ = dbms_->del(column_[0], stringInfo_[0]);
 		}
 		break;
 	case CMD_TYPE::SCH:
-		if (opt1 == OPT1_TYPE::PRINT) {
-			printInfo = dbms->sch_p(column[0], stringInfo[0]);
+		if (opt1_ == OPT1_TYPE::PRINT) {
+			printInfo_ = dbms_->sch_p(column_[0], stringInfo_[0]);
 		}
 		else {
-			numRecord = dbms->sch(column[0], stringInfo[0]);
+			numRecord_ = dbms_->sch(column_[0], stringInfo_[0]);
 		}
 		break;
 	case CMD_TYPE::MOD:
-		if (opt1 == OPT1_TYPE::PRINT) {
-			printInfo = dbms->mod_p(column[0], stringInfo[0], column[1], stringInfo[1]);
+		if (opt1_ == OPT1_TYPE::PRINT) {
+			printInfo_ = dbms_->mod_p(column_[0], stringInfo_[0], column_[1], stringInfo_[1]);
 		}
 		else {
-			numRecord = dbms->mod(column[0], stringInfo[0], column[1], stringInfo[1]);
+			numRecord_ = dbms_->mod(column_[0], stringInfo_[0], column_[1], stringInfo_[1]);
 		}
 		break;
 	default:
@@ -80,21 +80,21 @@ void IOHandler::runDBMS() {
 void IOHandler::setCommandType() {
 	string cmd_type_str = getCMDTypeAsString();
 	if (cmd_type_str == "ADD") {
-		cmd_type = CMD_TYPE::ADD;
+		cmd_type_ = CMD_TYPE::ADD;
 	}
 	else if (cmd_type_str == "DEL") {
-		cmd_type = CMD_TYPE::DEL;
+		cmd_type_ = CMD_TYPE::DEL;
 	}
 	else if (cmd_type_str == "SCH") {
-		cmd_type = CMD_TYPE::SCH;
+		cmd_type_ = CMD_TYPE::SCH;
 	}
 	else if (cmd_type_str == "MOD") {
-		cmd_type = CMD_TYPE::MOD;
+		cmd_type_ = CMD_TYPE::MOD;
 	}
 	else {
 		throw invalid_argument("Command " + cmd_type_str + " is not supported");
 	}
-	charIdx = cmd_type_str.length() + SEPARATOR_LENGTH;
+	charIdx_ = cmd_type_str.length() + SEPARATOR_LENGTH;
 }
 
 void IOHandler::parseInput() {
@@ -102,7 +102,7 @@ void IOHandler::parseInput() {
 	parseOption1();
 	parseOption2();
 	parseOption3();
-	switch (cmd_type) {
+	switch (cmd_type_) {
 	case CMD_TYPE::ADD:
 		parseADD();
 		break;
@@ -133,12 +133,12 @@ static size_t extractStringBtwComma(const string& src, string& dest, size_t star
 
 void IOHandler::parseOption1() {
 	string opt_string;
-	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, opt_string, charIdx_);
 	if (opt_string == " ") {
-		opt1 = OPT1_TYPE::NONE;
+		opt1_ = OPT1_TYPE::NONE;
 	}
 	else if (opt_string == "-p") {
-		opt1 = OPT1_TYPE::PRINT;
+		opt1_ = OPT1_TYPE::PRINT;
 	}
 	else {
 		throw invalid_argument("Invalid option1");
@@ -147,24 +147,24 @@ void IOHandler::parseOption1() {
 
 void IOHandler::parseOption2() {
 	string opt_string;
-	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, opt_string, charIdx_);
 	if (opt_string == " ") {
-		opt2 = OPT2_TYPE::NONE;
+		opt2_ = OPT2_TYPE::NONE;
 	}
 	else if (opt_string == "-f") {
-		opt2 = OPT2_TYPE::FIRST;
+		opt2_ = OPT2_TYPE::FIRST;
 	}
 	else if (opt_string == "-m") {
-		opt2 = OPT2_TYPE::MID_OR_MONTH;
+		opt2_ = OPT2_TYPE::MID_OR_MONTH;
 	}
 	else if (opt_string == "-l") {
-		opt2 = OPT2_TYPE::LAST;
+		opt2_ = OPT2_TYPE::LAST;
 	}
 	else if (opt_string == "-y") {
-		opt2 = OPT2_TYPE::YEAR;
+		opt2_ = OPT2_TYPE::YEAR;
 	}
 	else if (opt_string == "-d") {
-		opt2 = OPT2_TYPE::DAY;
+		opt2_ = OPT2_TYPE::DAY;
 	}
 	else {
 		throw invalid_argument("Invalid option2");
@@ -173,9 +173,9 @@ void IOHandler::parseOption2() {
 
 void IOHandler::parseOption3() {
 	string opt_string;
-	charIdx = extractStringBtwComma(cmd, opt_string, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, opt_string, charIdx_);
 	if (opt_string == " ") {
-		opt3 = OPT3_TYPE::NONE;
+		opt3_ = OPT3_TYPE::NONE;
 	}
 	else {
 		throw invalid_argument("Invalid option3");
@@ -264,40 +264,40 @@ static CERTI getCertiEnum(string certi) {
 
 void IOHandler::parseADD() {
 	string employeeID;
-	charIdx = extractStringBtwComma(cmd, employeeID, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, employeeID, charIdx_);
 	employeeID = IDFormatting(employeeID);
-	employeeInfo.employeeNum = stoi(employeeID);
+	employeeInfo_.employeeNum = stoi(employeeID);
 	
 	string fullName, firstName, lastName;
-	charIdx = extractStringBtwComma(cmd, fullName, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, fullName, charIdx_);
 	separateName(fullName, firstName, lastName);
-	employeeInfo.name.first = firstName;
-	employeeInfo.name.last = lastName;
+	employeeInfo_.name.first = firstName;
+	employeeInfo_.name.last = lastName;
 
 	string cl;
-	charIdx = extractStringBtwComma(cmd, cl, charIdx);
-	employeeInfo.cl = getCLEnum(cl);
+	charIdx_ = extractStringBtwComma(cmd_, cl, charIdx_);
+	employeeInfo_.cl = getCLEnum(cl);
 
 	string phoneNum;
 	int phoneNumStart, phoneNumMid, phoneNumLast;
-	charIdx = extractStringBtwComma(cmd, phoneNum, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, phoneNum, charIdx_);
 	separatePhoneNum(phoneNum, phoneNumStart, phoneNumMid, phoneNumLast);
-	employeeInfo.phoneNum.start = phoneNumStart;
-	employeeInfo.phoneNum.mid = phoneNumMid;
-	employeeInfo.phoneNum.last = phoneNumLast;
+	employeeInfo_.phoneNum.start = phoneNumStart;
+	employeeInfo_.phoneNum.mid = phoneNumMid;
+	employeeInfo_.phoneNum.last = phoneNumLast;
 
 
 	string birthDay;
 	int year, month, day;
-	charIdx = extractStringBtwComma(cmd, birthDay, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, birthDay, charIdx_);
 	separateBirthDay(birthDay, year, month, day);
-	employeeInfo.birthDay.year = year;
-	employeeInfo.birthDay.month = month;
-	employeeInfo.birthDay.day = day;
+	employeeInfo_.birthDay.year = year;
+	employeeInfo_.birthDay.month = month;
+	employeeInfo_.birthDay.day = day;
 
 	string certi;
-	charIdx = extractStringBtwComma(cmd, certi, charIdx);
-	employeeInfo.certi = getCertiEnum(certi);
+	charIdx_ = extractStringBtwComma(cmd_, certi, charIdx_);
+	employeeInfo_.certi = getCertiEnum(certi);
 }
 
 Column IOHandler::convertStringToColumn(string str) {
@@ -305,22 +305,22 @@ Column IOHandler::convertStringToColumn(string str) {
 		return Column::EMPLOYEE_NUM;
 	}
 	else if (str == "name") {
-		if (opt2 == OPT2_TYPE::FIRST) return Column::FIRST_NAME;
-		if (opt2 == OPT2_TYPE::LAST) return Column::LAST_NAME;
+		if (opt2_ == OPT2_TYPE::FIRST) return Column::FIRST_NAME;
+		if (opt2_ == OPT2_TYPE::LAST) return Column::LAST_NAME;
 		return Column::NAME;
 	}
 	else if (str == "cl") {
 		return Column::CL;
 	}
 	else if (str == "phoneNum") {
-		if (opt2 == OPT2_TYPE::MID_OR_MONTH) return Column::PHONE_MID;
-		if (opt2 == OPT2_TYPE::LAST) return Column::PHONE_LAST;
+		if (opt2_ == OPT2_TYPE::MID_OR_MONTH) return Column::PHONE_MID;
+		if (opt2_ == OPT2_TYPE::LAST) return Column::PHONE_LAST;
 		return Column::PHONE;
 	}
 	else if (str == "birthday") {
-		if (opt2 == OPT2_TYPE::YEAR) return Column::BIRTHDAY_YEAR;
-		if (opt2 == OPT2_TYPE::MID_OR_MONTH) return Column::BIRTHDAY_MONTH;
-		if (opt2 == OPT2_TYPE::DAY) return Column::BIRTHDAY_DAY;
+		if (opt2_ == OPT2_TYPE::YEAR) return Column::BIRTHDAY_YEAR;
+		if (opt2_ == OPT2_TYPE::MID_OR_MONTH) return Column::BIRTHDAY_MONTH;
+		if (opt2_ == OPT2_TYPE::DAY) return Column::BIRTHDAY_DAY;
 		return Column::BIRTHDAY;
 	}
 	else if (str == "certi") {
@@ -361,28 +361,28 @@ void IOHandler::parseDEL() {
 
 void IOHandler::parseSCH() {
 	string colString;
-	charIdx = extractStringBtwComma(cmd, colString, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, colString, charIdx_);
 	Column col = convertStringToColumn(colString);
-	column.emplace_back(col);
+	column_.emplace_back(col);
 	string argString;
-	charIdx = extractStringBtwComma(cmd, argString, charIdx);
-	stringInfo.emplace_back(argString);
+	charIdx_ = extractStringBtwComma(cmd_, argString, charIdx_);
+	stringInfo_.emplace_back(argString);
 }
 
 void IOHandler::parseMOD() {
 	string colString1;
-	charIdx = extractStringBtwComma(cmd, colString1, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, colString1, charIdx_);
 	Column col1 = convertStringToColumn(colString1);
-	column.emplace_back(col1);
+	column_.emplace_back(col1);
 	string argString1;
-	charIdx = extractStringBtwComma(cmd, argString1, charIdx);
-	stringInfo.emplace_back(argString1);
+	charIdx_ = extractStringBtwComma(cmd_, argString1, charIdx_);
+	stringInfo_.emplace_back(argString1);
 
 	string colString2;
-	charIdx = extractStringBtwComma(cmd, colString2, charIdx);
+	charIdx_ = extractStringBtwComma(cmd_, colString2, charIdx_);
 	Column col2 = convertStringToColumn2(colString2);
-	column.emplace_back(col2);
+	column_.emplace_back(col2);
 	string argString2;
-	charIdx = extractStringBtwComma(cmd, argString2, charIdx);
-	stringInfo.emplace_back(argString2);
+	charIdx_ = extractStringBtwComma(cmd_, argString2, charIdx_);
+	stringInfo_.emplace_back(argString2);
 }
