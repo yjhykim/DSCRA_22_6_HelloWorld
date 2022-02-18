@@ -48,9 +48,7 @@ private:
 	string getCMDTypeAsString() {
 		return cmd_.substr(0, 3);
 	}
-
 	Column convertStringToColumn(string str);
-	Column convertStringToColumn2(string str);
 
 	string cmd_;
 	int numRecord_;
