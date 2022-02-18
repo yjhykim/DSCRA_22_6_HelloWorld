@@ -68,3 +68,30 @@ bool DataBase::deleteTargets(list<Employee*> target) {
     }
     return true;
 }
+
+bool DataBase::modifyTarget(EmployeeNum id, Column column, string data) {
+    if (database_.count(id) == 0) {
+        return false;
+    }
+	switch (column) {
+	case Column::EMPLOYEE_NUM:
+        database_[id].employeeNum = getEmployeeNum(data);
+		break;
+	case Column::NAME:
+        database_[id].name = getName(column, data);
+		break;
+	case Column::CL:
+        database_[id].cl = getCL(data);
+		break;
+	case Column::PHONE:
+        database_[id].phoneNum = getPhoneNum(column, data);
+		break;
+	case Column::BIRTHDAY:
+        database_[id].birthDay = getBirthDay(column, data);
+		break;
+	case Column::CERTI:
+        database_[id].certi = getCERTI(data);
+		break;
+	}
+    return true;
+}

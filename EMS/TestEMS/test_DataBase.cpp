@@ -177,6 +177,51 @@ TEST_F(FixtureDataBase, SearchCL) {
     EXPECT_EQ(1988114052, employees.front()->employeeNum);
 }
 
+
+TEST_F(FixtureDataBase, ModifyName) {
+    database.modifyTarget(testData[0].employeeNum, Column::NAME, "HYEBIN AN");
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "15123099");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ("HYEBIN", employees.front()->name.first);
+    EXPECT_EQ("AN", employees.front()->name.last);
+}
+
+TEST_F(FixtureDataBase, ModifyPhoneNum) {
+    database.modifyTarget(testData[0].employeeNum, Column::PHONE, "010-7777-7777");
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "15123099");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(7777, employees.front()->phoneNum.mid);
+    EXPECT_EQ(7777, employees.front()->phoneNum.last);
+}
+
+TEST_F(FixtureDataBase, ModifyCerti) {
+    database.modifyTarget(testData[0].employeeNum, Column::CERTI, "PRO");
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "15123099");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(CERTI::PRO, employees.front()->certi);
+}
+
+TEST_F(FixtureDataBase, ModifyBirthday) {
+    database.modifyTarget(testData[0].employeeNum, Column::BIRTHDAY, "19940812");
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "15123099");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(1994, employees.front()->birthDay.year);
+    EXPECT_EQ(8, employees.front()->birthDay.month);
+    EXPECT_EQ(12, employees.front()->birthDay.day);
+}
+
+TEST_F(FixtureDataBase, ModifyCL) {
+    database.modifyTarget(testData[0].employeeNum, Column::CL, "CL1");
+
+    auto employees = database.search(Column::EMPLOYEE_NUM, "15123099");
+    ASSERT_EQ(1, employees.size());
+    EXPECT_EQ(CL::CL1, employees.front()->cl);
+}
+
 TEST_F(FixtureDataBase, Delete) {
     list<Employee*> deleteEmployees;
     deleteEmployees.emplace_back(&testData.at(2));

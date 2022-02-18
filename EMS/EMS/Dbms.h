@@ -21,7 +21,6 @@ public:
 };
 
 class Dbms : public IDbms {
-
 public:
 	Dbms(IDataBase* db);
 	virtual void add(Employee data) override;
