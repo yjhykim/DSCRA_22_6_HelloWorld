@@ -3,8 +3,7 @@
 #include "pch.h"
 #include "../EMS/SearchEngine.h"
 
-class MockSearchEngine : public ISearchEngine
-{
+class MockSearchEngine : public ISearchEngine {
 public:
     MOCK_METHOD(list<Employee*>, search, ((map<int, Employee>& db), int employeeNum), (const, override));
     MOCK_METHOD(list<Employee*>, search, ((map<int, Employee>& db), Name& name), (const, override));

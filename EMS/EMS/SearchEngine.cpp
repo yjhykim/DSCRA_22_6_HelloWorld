@@ -1,7 +1,6 @@
 #include "SearchEngine.h"
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, int employeeNum) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, int employeeNum) const {
 	list<Employee*> result;
 
 	auto item = db.find(employeeNum);
@@ -10,8 +9,7 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, int employeeNum) co
 	return result;
 }
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, Name& name) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, Name& name) const {
 	list<Employee*> result;
 
 	for (auto& item : db) {
@@ -24,8 +22,7 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, Name& name) const
 	return result;
 }
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, CL cl) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, CL cl) const {
 	list<Employee*> result;
 
 	for (auto& item : db) {
@@ -36,8 +33,7 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, CL cl) const
 	return result;
 }
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, PhoneNum& phoneNum) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, PhoneNum& phoneNum) const {
 	list<Employee*> result;
 
 	for (auto& item : db) {
@@ -50,8 +46,7 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, PhoneNum& phoneNum)
 	return result;
 }
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, Birthday& birthDay) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, Birthday& birthDay) const {
 	list<Employee*> result;
 
 	for (auto& item : db) {
@@ -65,8 +60,7 @@ list<Employee*> SearchEngine::search(map<int, Employee>& db, Birthday& birthDay)
 	return result;
 }
 
-list<Employee*> SearchEngine::search(map<int, Employee>& db, CERTI certi) const
-{
+list<Employee*> SearchEngine::search(map<int, Employee>& db, CERTI certi) const {
 	list<Employee*> result;
 
 	for (auto& item : db) {
