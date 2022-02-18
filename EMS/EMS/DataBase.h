@@ -6,6 +6,8 @@
 #include <map>
 #include <algorithm>
 
+using EmployeeNum = int;
+
 class IDataBase {
 public:
     IDataBase() = default;
@@ -23,10 +25,7 @@ public:
     DataBase() { engine_ = new SearchEngine(); };
     ~DataBase() = default;
 
-    void setSearchEngine(ISearchEngine* engine) { 
-        delete engine_; 
-        engine_ = static_cast<SearchEngine*>(engine);
-    }
+    void setSearchEngine(ISearchEngine* engine);
 
     list<Employee*> search(Column column, string data) override;
 
@@ -34,6 +33,6 @@ public:
     bool deleteTargets(list<Employee*> targets) override;
 
 private:
-    std::map<int, Employee> database_;
+    std::map<EmployeeNum, Employee> database_;
     SearchEngine* engine_;
 };

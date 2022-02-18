@@ -1,5 +1,10 @@
 #include "DataBase.h"
 
+void DataBase::setSearchEngine(ISearchEngine* engine) {
+    delete engine_;
+    engine_ = static_cast<SearchEngine*>(engine);
+}
+
 list<Employee*> DataBase::search(Column column, string data) {
     try {
         switch (column)
@@ -45,7 +50,8 @@ list<Employee*> DataBase::search(Column column, string data) {
         }
     }
     catch (const std::exception& e) {
-        //
+        cout << "search data is not valid: " << data << std::endl;
+        cout << e.what() << std::endl;
     }
     return list<Employee*>();
 }
