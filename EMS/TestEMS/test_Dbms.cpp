@@ -7,6 +7,7 @@ using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
 using ::testing::Invoke;
+using ::testing::Matcher;
 
 class DbmsTest : public testing::Test {
 public:
@@ -199,58 +200,6 @@ TEST_F(DbmsTest, del_p) {
     ASSERT_EQ(it, 0);
 }
 
-TEST_F(DbmsTest, mod_employeeNum) {
-
-    list<Employee*> modTargets;
-    modTargets.emplace_back(&data4);
-    modTargets.emplace_back(&data5);
-    modTargets.emplace_back(&data6);
-
-    int cntOffset = count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {
-        return (e->cl == CL::CL1) &&
-            (e->employeeNum == 13059831);
-        });
-
-    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
-    ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
-
-    auto result = dbms->mod(Column::CL, "CL1", Column::EMPLOYEE_NUM, "13059831");
-
-    EXPECT_EQ(modTargets.size(), result);
-
-    EXPECT_EQ(count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {return e->cl == CL::CL1; }),
-        cntOffset + count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {
-            return (e->cl == CL::CL1) &&
-                (e->employeeNum == 13059831);
-            }));
-}
-
-TEST_F(DbmsTest, mod_p_employeeNum) {
-
-    list<Employee*> modTargets;
-    modTargets.emplace_back(&data4);
-    modTargets.emplace_back(&data5);
-    modTargets.emplace_back(&data6);
-
-    int cntOffset = count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {
-        return (e->cl == CL::CL1) &&
-            (e->employeeNum == 13059831);
-        });
-
-    EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
-    ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
-
-    auto result = dbms->mod_p(Column::CL, "CL1", Column::EMPLOYEE_NUM, "13059831");
-
-    EXPECT_EQ(modTargets.size(), result.size());
-
-    EXPECT_EQ(count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {return e->cl == CL::CL1; }),
-        cntOffset + count_if(fake_db.begin(), fake_db.end(), [](Employee* e) {
-            return (e->cl == CL::CL1) &&
-                (e->employeeNum == 13059831);
-            }));
-}
-
 TEST_F(DbmsTest, mod_certi) {
 
     list<Employee*> modTargets;
@@ -263,6 +212,14 @@ TEST_F(DbmsTest, mod_certi) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->certi = CERTI::EX;
+        }
+
+        return true;
+        }));
     int result = dbms->mod(Column::CL, "CL1", Column::CERTI, "EX");
 
     EXPECT_EQ(modTargets.size(), result);
@@ -282,6 +239,15 @@ TEST_F(DbmsTest, mod_p_certi) {
 
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
+
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->certi = CERTI::EX;
+        }
+
+        return true;
+        }));
 
     auto result = dbms->mod_p(Column::CL, "CL1", Column::CERTI, "EX");
 
@@ -303,6 +269,16 @@ TEST_F(DbmsTest, mod_name) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->name.first = "NO";
+            e->name.last = "NAME";
+        }
+
+        return true;
+        }));
+
     auto result = dbms->mod(Column::CL, "CL1", Column::NAME, "NO NAME");
 
     EXPECT_EQ(modTargets.size(), result);
@@ -322,6 +298,16 @@ TEST_F(DbmsTest, mod_p_name) {
 
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
+
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->name.first = "NO";
+            e->name.last = "NAME";
+        }
+
+        return true;
+        }));
 
     auto result = dbms->mod_p(Column::CL, "CL1", Column::NAME, "NO NAME");
 
@@ -347,6 +333,17 @@ TEST_F(DbmsTest, mod_phone) {
 
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
+
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->phoneNum.start = 10;
+            e->phoneNum.mid = 1111;
+            e->phoneNum.last = 2222;
+        }
+
+        return true;
+        }));
 
     int result = dbms->mod(Column::CL, "CL1", Column::PHONE, "010-1111-2222");
 
@@ -378,6 +375,17 @@ TEST_F(DbmsTest, mod_p_phone) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->phoneNum.start = 10;
+            e->phoneNum.mid = 1111;
+            e->phoneNum.last = 2222;
+        }
+
+        return true;
+        }));
+
     auto result = dbms->mod_p(Column::CL, "CL1", Column::PHONE, "010-1111-2222");
 
     EXPECT_EQ(modTargets.size(), result.size());
@@ -408,6 +416,17 @@ TEST_F(DbmsTest, mod_birthday) {
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
 
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->birthDay.year = 2020;
+            e->birthDay.month = 2;
+            e->birthDay.day = 16;
+        }
+
+        return true;
+        }));
+
     auto result = dbms->mod(Column::CL, "CL1", Column::BIRTHDAY, "20200216");
 
     EXPECT_EQ(modTargets.size(), result);
@@ -437,6 +456,17 @@ TEST_F(DbmsTest, mod_p_birthday) {
 
     EXPECT_CALL(mockDb, search(_, _)).Times(AnyNumber());
     ON_CALL(mockDb, search(_, _)).WillByDefault(Return(modTargets));
+
+    EXPECT_CALL(mockDb, modifyTarget(_, _, _)).Times(modTargets.size());
+    ON_CALL(mockDb, modifyTarget(_, _, _)).WillByDefault(Invoke([&modTargets](EmployeeNum id, Column column, string data) -> bool {
+        for (auto e : modTargets) {
+            e->birthDay.year = 2020;
+            e->birthDay.month = 2;
+            e->birthDay.day = 16;
+        }
+
+        return true;
+        }));
 
     auto result = dbms->mod_p(Column::CL, "CL1", Column::BIRTHDAY, "20200216");
 
