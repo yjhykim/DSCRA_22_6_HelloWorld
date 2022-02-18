@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "../EMS/SearchEngine.h"
-#include "../Types.h"
+#include "../EMS/Types.h"
 #include <iostream>
 using namespace std;
 using ::testing::Return;
