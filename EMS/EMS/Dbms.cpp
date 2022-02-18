@@ -3,7 +3,7 @@
 #include "StringUtil.h"
 
 Dbms::Dbms(IDataBase* db) {
-	_db = db;
+	db_ = db;
 }
 
 void copyResultData(list<Employee*> selectedItems, list<Employee>* result) {
@@ -17,34 +17,34 @@ void copyResultData(list<Employee*> selectedItems, list<Employee>* result) {
 }
 
 void Dbms::add(Employee data) {
-	_db->add(data);
+	db_->add(data);
 }
 
 int Dbms::del(Column type, string data) {
-	list<Employee*> selectedItems = _db->search(type, data);
-	_db->deleteTargets(selectedItems);
+	list<Employee*> selectedItems = db_->search(type, data);
+	db_->deleteTargets(selectedItems);
 	return selectedItems.size();
 }
 
 list<Employee> Dbms::del_p(Column type, string data) {
-	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee*> selectedItems = db_->search(type, data);
 	list<Employee> result;
 
 	copyResultData(selectedItems, &result);
 
-	_db->deleteTargets(selectedItems);
+	db_->deleteTargets(selectedItems);
 
 	return result;
 }
 
 int Dbms::sch(Column type, string data) {
-	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee*> selectedItems = db_->search(type, data);
 
 	return selectedItems.size();
 }
 
 list<Employee> Dbms::sch_p(Column type, string data) {
-	list<Employee*> selectedItems = _db->search(type, data);
+	list<Employee*> selectedItems = db_->search(type, data);
 	list<Employee> result;
 
 	copyResultData(selectedItems, &result);
@@ -97,7 +97,7 @@ void editColumn(Employee* target, const Column type, const string data) {
 }
 
 int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
-	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
+	list<Employee*> selectedItems = db_->search(typeFrom, dataFrom);
 
 	for (auto &e : selectedItems) editColumn(e, typeTo, dataTo);
 
@@ -105,7 +105,7 @@ int Dbms::mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
 }
 
 list<Employee> Dbms::mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) {
-	list<Employee*> selectedItems = _db->search(typeFrom, dataFrom);
+	list<Employee*> selectedItems = db_->search(typeFrom, dataFrom);
 	list<Employee> result;
 
 	copyResultData(selectedItems, &result);
