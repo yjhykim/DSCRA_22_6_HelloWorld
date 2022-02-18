@@ -21,8 +21,7 @@ public:
 };
 
 class Dbms : public IDbms {
-private:
-	IDataBase* _db;
+
 public:
 	Dbms(IDataBase* db);
 	virtual void add(Employee data) override;
@@ -32,4 +31,7 @@ public:
 	virtual list<Employee> sch_p(Column type, string data) override;
 	virtual int mod(Column typeFrom, string dataFrom, Column typeTo, string dataTo) override;
 	virtual list<Employee> mod_p(Column typeFrom, string dataFrom, Column typeTo, string dataTo) override;
+
+private:
+	IDataBase* db_;
 };
