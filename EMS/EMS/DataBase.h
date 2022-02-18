@@ -25,7 +25,7 @@ public:
 
     void setSearchEngine(ISearchEngine* engine) { 
         delete engine_; 
-        engine_ = (SearchEngine*)engine;
+        engine_ = static_cast<SearchEngine*>(engine);
     }
 
     list<Employee*> search(Column column, string data) override;
