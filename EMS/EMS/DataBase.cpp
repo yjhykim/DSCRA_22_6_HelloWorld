@@ -73,7 +73,6 @@ bool DataBase::modifyTarget(EmployeeNum id, Column column, string data) {
     if (database_.count(id) == 0) {
         return false;
     }
-
 	switch (column) {
 	case Column::EMPLOYEE_NUM:
         database_[id].employeeNum = getEmployeeNum(data);
