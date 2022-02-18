@@ -12,17 +12,17 @@ class IOHandler {
 	enum class OPT2_TYPE { NONE, FIRST, MID_OR_MONTH, LAST, YEAR, DAY };
 	enum class OPT3_TYPE { NONE, RESERVED };
 public:
-	IOHandler(IDbms* _dbms, IPrinter* _printer) : 
-		cmd(""), cmd_type( CMD_TYPE::NONE ), employeeInfo({ 0 }), charIdx(0), numRecord(0),
-		opt1(OPT1_TYPE::NONE), opt2(OPT2_TYPE::NONE), opt3(OPT3_TYPE::NONE), 
-		dbms(_dbms), printer(_printer) {}
+	IOHandler(IDbms* dbms, IPrinter* printer) : 
+		cmd_(""), cmd_type_( CMD_TYPE::NONE ), employeeInfo_({ 0 }), charIdx_(0), numRecord_(0),
+		opt1_(OPT1_TYPE::NONE), opt2_(OPT2_TYPE::NONE), opt3_(OPT3_TYPE::NONE), 
+		dbms_(dbms), printer_(printer) {}
 
 	virtual ~IOHandler() {
-		delete dbms;
-		delete printer;
+		delete dbms_;
+		delete printer_;
 	}
 
-	void commandRequest(string _cmd);
+	void commandRequest(string cmd);
 
 private:
 	void init();
@@ -38,25 +38,25 @@ private:
 	void runDBMS();
 	void runPrinter(); 
 	string getCMDTypeAsString() {
-		return cmd.substr(0, 3);
+		return cmd_.substr(0, 3);
 	}
 
 	Column convertStringToColumn(string str);
 	Column convertStringToColumn2(string str);
 
-	string cmd;
-	int numRecord;
-	CMD_TYPE cmd_type;
-	Employee employeeInfo;
-	vector<Column> column;
-	vector<string> stringInfo;
-	list<Employee> printInfo;
+	string cmd_;
+	int numRecord_;
+	CMD_TYPE cmd_type_;
+	Employee employeeInfo_;
+	vector<Column> column_;
+	vector<string> stringInfo_;
+	list<Employee> printInfo_;
 
-	size_t charIdx;
-	OPT1_TYPE opt1;
-	OPT2_TYPE opt2;
-	OPT3_TYPE opt3;
+	size_t charIdx_;
+	OPT1_TYPE opt1_;
+	OPT2_TYPE opt2_;
+	OPT3_TYPE opt3_;
 
-	IDbms* dbms;
-	IPrinter* printer;
+	IDbms* dbms_;
+	IPrinter* printer_;
 };
