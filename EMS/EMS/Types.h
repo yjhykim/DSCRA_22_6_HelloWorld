@@ -42,3 +42,18 @@ const int EMP_ID_NUM_OF_DIGITS = 1000000;
 const int MAX_OUT_DATA = 5;
 
 const int SEPARATOR_LENGTH = 1;
+
+const int EMP_ID_YEAR_START = 69;
+const int EMP_ID_PREFIX_1900s = 1900 * EMP_ID_NUM_OF_DIGITS;
+const int EMP_ID_PREFIX_2000s = 2000 * EMP_ID_NUM_OF_DIGITS;
+
+const int INDEX_BIRTH_YEAR_START = 0;
+const int INDEX_BIRTH_MONTH_START = 4;
+const int INDEX_BIRTH_DAY_START = 6;
+
+const int LENGTH_BIRTH_YEAR = 4;
+const int LENGTH_BIRTH_MONTH = 2;
+const int LENGTH_BIRTH_DAY = 2;
+
+const int COUNT_PHONE_NUM_SPLIT = 3;
+const int COUNT_NAME_SPLIT = 2;

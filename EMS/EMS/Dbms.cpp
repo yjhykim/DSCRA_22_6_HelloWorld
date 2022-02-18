@@ -81,9 +81,9 @@ void editColumn(Employee* target, const Column type, const string data) {
 		target->phoneNum.last = stoi(tokenizedStr.at(2));
 		break;
 	case Column::BIRTHDAY:
-		target->birthDay.year = stoi(data.substr(0, 4));
-		target->birthDay.month = stoi(data.substr(4, 2));
-		target->birthDay.day = stoi(data.substr(6, 2));
+		target->birthDay.year = stoi(data.substr(INDEX_BIRTH_YEAR_START, LENGTH_BIRTH_YEAR));
+		target->birthDay.month = stoi(data.substr(INDEX_BIRTH_MONTH_START, LENGTH_BIRTH_MONTH));
+		target->birthDay.day = stoi(data.substr(INDEX_BIRTH_DAY_START, LENGTH_BIRTH_DAY));
 		break;
 	case Column::CERTI:
 		if (data == "ADV")

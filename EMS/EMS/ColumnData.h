@@ -1,6 +1,8 @@
 #pragma once
 
 #include <vector>
+#include <sstream>
+#include <iostream>
 #include "StringUtil.h"
 
 static int getEmployeeNum(std::string data) {
@@ -8,10 +10,10 @@ static int getEmployeeNum(std::string data) {
     try {
         id = stoi(data);
         auto year = id / EMP_ID_NUM_OF_DIGITS;
-        if (year >= 69)
-            id += 1900 * EMP_ID_NUM_OF_DIGITS;
+        if (year >= EMP_ID_YEAR_START)
+            id += EMP_ID_PREFIX_1900s;
         else
-            id += 2000 * EMP_ID_NUM_OF_DIGITS;
+            id += EMP_ID_PREFIX_2000s;
     }
     catch (const std::exception& e) {
         throw e;
@@ -23,7 +25,7 @@ static Name getName(Column column, std::string data) {
     Name name{};
     if (column == Column::NAME) {
         auto text = split(data, ' ');
-        if (text.size() > 1)
+        if (text.size() == COUNT_NAME_SPLIT)
             name = Name{ text[0], text[1] };
     }
     else if (column == Column::FIRST_NAME) {
@@ -55,7 +57,7 @@ static PhoneNum getPhoneNum(Column column, std::string data) {
     PhoneNum phoneNum = PhoneNum();
     if (column == Column::PHONE) {
         auto text = split(data, '-');
-        if (text.size() == 3) {
+        if (text.size() == COUNT_PHONE_NUM_SPLIT) {
             phoneNum = PhoneNum{
                 stoi(text[0]), stoi(text[1]), stoi(text[2]) };
         }
@@ -71,27 +73,31 @@ static PhoneNum getPhoneNum(Column column, std::string data) {
 
 static Birthday getBirthDay(Column column, std::string data) {
     Birthday birthday = Birthday();
-    int idata = stoi(data);
-    int year{ NULL_DATA };
-    int month{ NULL_DATA };
-    int day{ NULL_DATA };
+    try {
+        int idata = stoi(data);
+        int year{ NULL_DATA };
+        int month{ NULL_DATA };
+        int day{ NULL_DATA };
 
-    if (column == Column::BIRTHDAY) {
-        int MMdd = idata % 10000;
-        year = idata / 10000;
-        month = MMdd / 100;
-        day = MMdd % 100;
+        if (column == Column::BIRTHDAY) {
+            year = stoi(data.substr(INDEX_BIRTH_YEAR_START, LENGTH_BIRTH_YEAR));
+            month = stoi(data.substr(INDEX_BIRTH_MONTH_START, LENGTH_BIRTH_MONTH));
+            day = stoi(data.substr(INDEX_BIRTH_DAY_START, LENGTH_BIRTH_DAY));
+        }
+        else if (column == Column::BIRTHDAY_YEAR) {
+            year = idata;
+        }
+        else if (column == Column::BIRTHDAY_MONTH) {
+            month = idata;
+        }
+        else if (column == Column::BIRTHDAY_DAY) {
+            day = idata;
+        }
+        birthday = Birthday{ year, month, day };
     }
-    else if (column == Column::BIRTHDAY_YEAR) {
-        year = idata;
+    catch (const exception& e) {
+        cout << "birthday data is not valid: " << data << std::endl;
+        cout << e.what() << std::endl;
     }
-    else if (column == Column::BIRTHDAY_MONTH) {
-        month = idata;
-    }
-    else if (column == Column::BIRTHDAY_DAY) {
-        day = idata;
-    }
-    birthday = Birthday{ year, month, day };
-
     return birthday;
 }
