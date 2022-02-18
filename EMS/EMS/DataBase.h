@@ -23,6 +23,11 @@ public:
     DataBase() { engine_ = new SearchEngine(); };
     ~DataBase() = default;
 
+    void setSearchEngine(ISearchEngine* engine) { 
+        delete engine_; 
+        engine_ = static_cast<SearchEngine*>(engine);
+    }
+
     list<Employee*> search(Column column, string data) override;
 
     bool add(Employee target) override;
