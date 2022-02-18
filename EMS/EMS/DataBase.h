@@ -17,6 +17,7 @@ public:
 
     virtual bool add(Employee target) = 0;
     virtual bool deleteTargets(list<Employee*> targets) = 0;
+    virtual bool modifyTarget(EmployeeNum id, Column column, string data) = 0;
 };
 
 
@@ -31,6 +32,7 @@ public:
 
     bool add(Employee target) override;
     bool deleteTargets(list<Employee*> targets) override;
+    bool modifyTarget(EmployeeNum id, Column column, string data) override;
 
 private:
     std::map<EmployeeNum, Employee> database_;

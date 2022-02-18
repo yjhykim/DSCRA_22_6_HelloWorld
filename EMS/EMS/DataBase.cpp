@@ -68,3 +68,8 @@ bool DataBase::deleteTargets(list<Employee*> target) {
     }
     return true;
 }
+
+bool DataBase::modifyTarget(EmployeeNum id, Column column, string data) {
+
+    return true;
+}
