@@ -66,4 +66,18 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="input_20_20.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="output.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="sample_input.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+    <Text Include="sample_output.txt">
+      <Filter>리소스 파일</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
