@@ -31,8 +31,16 @@ private:
 	void parseOption1();
 	void parseOption2();
 	void parseOption3();
+	void setEmployeeNum();
+	void setEmployeeName();
+	void setEmployeeCL();
+	void setEmployeePhoneNum();
+	void setEmployeeBirthday();
+	void setEmployeeCerti();
 	void parseADD();
 	void parseDEL();
+	void addColumn();
+	void addStringData();
 	void parseSCH();
 	void parseMOD();
 	void runDBMS();
@@ -40,9 +48,7 @@ private:
 	string getCMDTypeAsString() {
 		return cmd_.substr(0, 3);
 	}
-
 	Column convertStringToColumn(string str);
-	Column convertStringToColumn2(string str);
 
 	string cmd_;
 	int numRecord_;

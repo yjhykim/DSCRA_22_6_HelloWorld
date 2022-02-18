@@ -247,37 +247,25 @@ static void separateBirthDay(string birthDay,int& year, int& month, int& day) {
 	day = stoi(birthDay.substr(6, 2));
 }
 
-static CERTI getCertiEnum(string certi) {
-	if (certi == "ADV") {
-		return CERTI::ADV;
-	}
-	else if (certi == "PRO") {
-		return CERTI::PRO;
-	}
-	else if (certi == "EX") {
-		return CERTI::EX;
-	}
-	else {
-		throw invalid_argument("Certi should be one of {ADV, PRO, EX}");
-	}
-}
-
-void IOHandler::parseADD() {
+void IOHandler::setEmployeeNum() {
 	string employeeID;
 	charIdx_ = extractStringBtwComma(cmd_, employeeID, charIdx_);
 	employeeID = IDFormatting(employeeID);
 	employeeInfo_.employeeNum = stoi(employeeID);
-	
+}
+void IOHandler::setEmployeeName() {
 	string fullName, firstName, lastName;
 	charIdx_ = extractStringBtwComma(cmd_, fullName, charIdx_);
 	separateName(fullName, firstName, lastName);
 	employeeInfo_.name.first = firstName;
 	employeeInfo_.name.last = lastName;
-
+}
+void IOHandler::setEmployeeCL() {
 	string cl;
 	charIdx_ = extractStringBtwComma(cmd_, cl, charIdx_);
-	employeeInfo_.cl = getCLEnum(cl);
-
+	employeeInfo_.cl = getCL(cl);
+}
+void IOHandler::setEmployeePhoneNum() {
 	string phoneNum;
 	int phoneNumStart, phoneNumMid, phoneNumLast;
 	charIdx_ = extractStringBtwComma(cmd_, phoneNum, charIdx_);
@@ -285,8 +273,8 @@ void IOHandler::parseADD() {
 	employeeInfo_.phoneNum.start = phoneNumStart;
 	employeeInfo_.phoneNum.mid = phoneNumMid;
 	employeeInfo_.phoneNum.last = phoneNumLast;
-
-
+}
+void IOHandler::setEmployeeBirthday() {
 	string birthDay;
 	int year, month, day;
 	charIdx_ = extractStringBtwComma(cmd_, birthDay, charIdx_);
@@ -294,17 +282,29 @@ void IOHandler::parseADD() {
 	employeeInfo_.birthDay.year = year;
 	employeeInfo_.birthDay.month = month;
 	employeeInfo_.birthDay.day = day;
-
+}
+void IOHandler::setEmployeeCerti() {
 	string certi;
 	charIdx_ = extractStringBtwComma(cmd_, certi, charIdx_);
-	employeeInfo_.certi = getCertiEnum(certi);
+	employeeInfo_.certi = getCERTI(certi);
+}
+
+void IOHandler::parseADD() {
+	setEmployeeNum();
+	setEmployeeName();
+	setEmployeeCL();
+	setEmployeePhoneNum();
+	setEmployeeBirthday();
+	setEmployeeCerti();
 }
 
 Column IOHandler::convertStringToColumn(string str) {
+	bool isSecondColumn = column_.size() == 1;
 	if (str == "employeeNum") {
 		return Column::EMPLOYEE_NUM;
 	}
 	else if (str == "name") {
+		if (isSecondColumn) return Column::NAME;
 		if (opt2_ == OPT2_TYPE::FIRST) return Column::FIRST_NAME;
 		if (opt2_ == OPT2_TYPE::LAST) return Column::LAST_NAME;
 		return Column::NAME;
@@ -313,11 +313,13 @@ Column IOHandler::convertStringToColumn(string str) {
 		return Column::CL;
 	}
 	else if (str == "phoneNum") {
+		if (isSecondColumn) return Column::PHONE;
 		if (opt2_ == OPT2_TYPE::MID_OR_MONTH) return Column::PHONE_MID;
 		if (opt2_ == OPT2_TYPE::LAST) return Column::PHONE_LAST;
 		return Column::PHONE;
 	}
 	else if (str == "birthday") {
+		if (isSecondColumn) return Column::BIRTHDAY;
 		if (opt2_ == OPT2_TYPE::YEAR) return Column::BIRTHDAY_YEAR;
 		if (opt2_ == OPT2_TYPE::MID_OR_MONTH) return Column::BIRTHDAY_MONTH;
 		if (opt2_ == OPT2_TYPE::DAY) return Column::BIRTHDAY_DAY;
@@ -326,63 +328,35 @@ Column IOHandler::convertStringToColumn(string str) {
 	else if (str == "certi") {
 		return Column::CERTI;
 	}
-	else {
-		throw invalid_argument("Invalid column");
-	}
-}
-
-Column IOHandler::convertStringToColumn2(string str) {
-	if (str == "employeeNum") {
-		return Column::EMPLOYEE_NUM;
-	}
-	else if (str == "name") {
-		return Column::NAME;
-	}
-	else if (str == "cl") {
-		return Column::CL;
-	}
-	else if (str == "phoneNum") {
-		return Column::PHONE;
-	}
-	else if (str == "birthday") {
-		return Column::BIRTHDAY;
-	}
-	else if (str == "certi") {
-		return Column::CERTI;
-	}
-	else {
-		throw invalid_argument("Invalid column");
-	}
+	
+	throw invalid_argument("Invalid column");
 }
 
 void IOHandler::parseDEL() {
 	parseSCH();
 }
 
-void IOHandler::parseSCH() {
+void IOHandler::addColumn() {
 	string colString;
 	charIdx_ = extractStringBtwComma(cmd_, colString, charIdx_);
 	Column col = convertStringToColumn(colString);
 	column_.emplace_back(col);
+}
+
+void IOHandler::addStringData() {
 	string argString;
 	charIdx_ = extractStringBtwComma(cmd_, argString, charIdx_);
 	stringInfo_.emplace_back(argString);
 }
 
-void IOHandler::parseMOD() {
-	string colString1;
-	charIdx_ = extractStringBtwComma(cmd_, colString1, charIdx_);
-	Column col1 = convertStringToColumn(colString1);
-	column_.emplace_back(col1);
-	string argString1;
-	charIdx_ = extractStringBtwComma(cmd_, argString1, charIdx_);
-	stringInfo_.emplace_back(argString1);
+void IOHandler::parseSCH() {
+	addColumn();
+	addStringData();
+}
 
-	string colString2;
-	charIdx_ = extractStringBtwComma(cmd_, colString2, charIdx_);
-	Column col2 = convertStringToColumn2(colString2);
-	column_.emplace_back(col2);
-	string argString2;
-	charIdx_ = extractStringBtwComma(cmd_, argString2, charIdx_);
-	stringInfo_.emplace_back(argString2);
+void IOHandler::parseMOD() {
+	addColumn();
+	addStringData();
+	addColumn();
+	addStringData();
 }
