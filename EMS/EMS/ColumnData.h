@@ -42,7 +42,7 @@ static CL getCL(std::string data) {
         if (cl.second == data)
             return cl.first;
     }
-    return CL::CL1;
+    throw invalid_argument("CL should be one of CL1,CL2,CL3,Cl4");
 }
 
 static CERTI getCERTI(std::string data) {
@@ -50,7 +50,7 @@ static CERTI getCERTI(std::string data) {
         if (certi.second == data)
             return certi.first;
     }
-    return CERTI::ADV;
+    throw invalid_argument("CERTI should be one of ADV,PRO,EX");
 }
 
 static PhoneNum getPhoneNum(Column column, std::string data) {
