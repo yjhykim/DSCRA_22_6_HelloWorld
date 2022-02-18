@@ -9,8 +9,13 @@ using ::testing::Return;
 using ::testing::_;
 using ::testing::AnyNumber;
 using ::testing::Test;
-using ::testing::Invoke; 
+using ::testing::Invoke;
 using ::testing::NiceMock;
+using ::testing::Matcher;
+using ::testing::An;
+using ::testing::A;
+using ::testing::TypedEq;
+using ::testing::Ref;
 
 class IOHandlerTest : public testing::Test {
 public:
@@ -38,7 +43,6 @@ public:
 
 
 	virtual void TearDown() override {
-		//delete ioHandler;
 		fakeDB.clear();
 	}
 };
@@ -67,24 +71,70 @@ TEST_F(IOHandlerTest, SCH) {
 	ioHandler->commandRequest("SCH, , , ,name,JJIVL LFIS");
 }
 
-/*
-TODO
 TEST_F(IOHandlerTest, MOD) {
 	list<Employee> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(data2);
 
-	ON_CALL(mockDBMS, mod_p(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
-	EXPECT_CALL(mockPrinter, print(localFakeQueryResult, string("MOD"))).Times(1);
-	ioHandler->commandRequest("MOD,-p,,,name,JJIVL LFIS,name,KKIVL KFIS");
+	EXPECT_CALL(mockDBMS, mod(_, _, _, _)).Times(1);
+	ON_CALL(mockDBMS, mod(_, _, _, _)).WillByDefault(Return(1));
+	ioHandler->commandRequest("MOD, , , ,name,JJIVL LFIS,name,KKIVL KFIS");
 }
 
-
-TEST_F(IOHandlerTest, PRINT) {
+TEST_F(IOHandlerTest, PRINT_MOD_SINGLE_OUTPUT) {
 	list<Employee> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(data2);
 
 	ON_CALL(mockDBMS, mod_p(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
-	EXPECT_CALL(mockPrinter, print(_, string("MOD"))).Times(1);
-	ioHandler->commandRequest("MOD,-p,,,name,JJIVL LFIS,name,KKIVL KFIS");
+	EXPECT_CALL(mockDBMS, mod_p(_, _, _, _)).Times(1);
+	EXPECT_CALL(mockPrinter, print(A<list<Employee>&>(), _)).WillOnce(testing::SetArgReferee<0>(localFakeQueryResult));
+	ioHandler->commandRequest("MOD,-p, , ,name,JJIVL LFIS,name,KKIVL KFIS");
 }
-*/
+
+
+TEST_F(IOHandlerTest, PRINT_MOD_MULTI_OUTPUT) {
+	list<Employee> localFakeQueryResult;
+	localFakeQueryResult.emplace_back(data2);
+	localFakeQueryResult.emplace_back(data3);
+	list<Employee> localFakeQueryResult2;
+	localFakeQueryResult2.emplace_back(data2);
+	localFakeQueryResult2.emplace_back(data3);
+
+	ON_CALL(mockDBMS, mod_p(_, _, _, _)).WillByDefault(Return(localFakeQueryResult));
+	EXPECT_CALL(mockDBMS, mod_p(_, _, _, _)).Times(1);
+	EXPECT_CALL(mockPrinter, print(Matcher<list<Employee>&>(_), _)).Times(1);
+
+	ON_CALL(mockPrinter, print(Matcher<list<Employee>&>(_), _)).WillByDefault(Invoke([&localFakeQueryResult2](list<Employee> record, string& str) {
+		auto it = localFakeQueryResult2.begin();
+		for (auto e : record) {
+			EXPECT_EQ((*it).employeeNum, e.employeeNum);
+			it++;
+		}
+
+		return true;
+		}));
+	ioHandler->commandRequest("MOD,-p, , ,name,JJIVL LFIS,name,KKIVL KFIS");
+}
+
+TEST_F(IOHandlerTest, PRINT_DEL_MULTI_OUTPUT) {
+	list<Employee> localFakeQueryResult;
+	localFakeQueryResult.emplace_back(data2);
+	localFakeQueryResult.emplace_back(data3);
+	list<Employee> localFakeQueryResult2;
+	localFakeQueryResult2.emplace_back(data2);
+	localFakeQueryResult2.emplace_back(data3);
+
+	ON_CALL(mockDBMS, del_p(_, _)).WillByDefault(Return(localFakeQueryResult));
+	EXPECT_CALL(mockDBMS, del_p(_, _)).Times(1);
+	EXPECT_CALL(mockPrinter, print(Matcher<list<Employee>&>(_), _)).Times(1);
+
+	ON_CALL(mockPrinter, print(Matcher<list<Employee>&>(_), _)).WillByDefault(Invoke([&localFakeQueryResult2](list<Employee> record, string& str) {
+		auto it = localFakeQueryResult2.begin();
+		for (auto e : record) {
+			EXPECT_EQ((*it).employeeNum, e.employeeNum);
+			it++;
+		}
+
+		return true;
+		}));
+	ioHandler->commandRequest("DEL,-p, , ,name,JJIVL LFIS");
+}
