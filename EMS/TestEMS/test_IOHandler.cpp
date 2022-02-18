@@ -80,7 +80,7 @@ TEST_F(IOHandlerTest, MOD) {
 	ioHandler->commandRequest("MOD, , , ,name,JJIVL LFIS,name,KKIVL KFIS");
 }
 
-TEST_F(IOHandlerTest, PRINT) {
+TEST_F(IOHandlerTest, PRINT_MOD_SINGLE_OUTPUT) {
 	list<Employee> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(data2);
 
@@ -91,7 +91,7 @@ TEST_F(IOHandlerTest, PRINT) {
 }
 
 
-TEST_F(IOHandlerTest, PRINT2) {
+TEST_F(IOHandlerTest, PRINT_MOD_MULTI_OUTPUT) {
 	list<Employee> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(data2);
 	localFakeQueryResult.emplace_back(data3);
@@ -115,7 +115,7 @@ TEST_F(IOHandlerTest, PRINT2) {
 	ioHandler->commandRequest("MOD,-p, , ,name,JJIVL LFIS,name,KKIVL KFIS");
 }
 
-TEST_F(IOHandlerTest, PRINT3) {
+TEST_F(IOHandlerTest, PRINT_DEL_MULTI_OUTPUT) {
 	list<Employee> localFakeQueryResult;
 	localFakeQueryResult.emplace_back(data2);
 	localFakeQueryResult.emplace_back(data3);
